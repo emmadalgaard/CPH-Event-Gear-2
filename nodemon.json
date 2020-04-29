@@ -1,0 +1,5 @@
+{
+    "watch": ["./backend/src", ".env"],
+    "ext": "js,json",
+    "exec": "clear; node ./backend/src/index.js"
+}

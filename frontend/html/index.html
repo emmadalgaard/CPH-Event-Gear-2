@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CPH Event Gear</title>
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+</head>
+
+<body style="background-color:rgb(245, 246, 250); margin: 0; padding:0;">
+
+<!-- Navigation bar and navigation buttons -->
+<div id="naviBar">
+    <div>
+        <h1 id="headTitle">CPH Event Gear </h1>
+    </div>
+    <a href="index.html"><button id="buttonStyle"> Forside </button></a> <!-- html elementers id skal ALTID være unikt -->
+    <button onClick="checkLoginOrderPage();" style="border-right-width: 0; border-left-width: 0" id="buttonStyle"> Produkter </button>
+    <button onClick="checkLoginProfilePage();" id="buttonStyle"> Profil </button>
+    <!-- Login button will only be shown if the localStorage is empty -->
+    <a id="loginButton" style="display:;" href="Loginpage.html"><button style="position: absolute; right:0px;" id="buttonStyle"> Log-Ind </button> </a>
+    <!-- If user is active in localStorage, show the users phone: -->
+    <button id="loginPhone" style="display:none;"> </button>
+</div>
+
+<!-- Text on the page-->
+<div id="textField">
+    <br>
+    <br>
+    <br>
+
+
+    <h2 style="font-family: modernSansLight; font-size:34px; width:100%; color: rgb(186, 215, 224); ">VELKOMMEN TIL CPH EVENT GEAR</h2>
+    <h3 style="font-family: modernSansLight; font-size:22px; width:100%; color: rgb(186, 215, 224); ">FESTUDLEJNINGS-PAKKER I KØBENHAVN</h3>
+    <br>
+    <br>
+    <img style="width:65%; height:65%; position: center;" src="../images/info.png">
+
+<!-- </div>
+<div id="frontContainer">
+     <div id="frontContainerPhoto" style="float: left; width: 50%; max-height: 640px;">
+    <img style="width:100%;" src="../images/Login.png">
+    </div>
+    <div id="frontContainerText" style="height: 100%; margin: auto; width:50%; position: absolute; right: 0; top: 0;">
+        <h1 style="font-family:modernSansLight; color: ghostwhite; font-size: 30px; text-align: center;"> Priser starter ved 2000 KR. </h1>
+        <div id="frontText">
+            <ul>
+                <br><br>
+                <li>De vildeste maskiner på markedet </li>
+                <br><br>
+                <li> De billigste priser i København </li>
+                <br><br>
+                <li> De fedeste oplevelser </li>
+                <br><br>
+                <li> Bestil din festpakke allerede i dag </li>
+            </ul>
+            <br><br>-->
+            <p style="text-align: center;"><button onclick="checkLoginOrderPage()" id="frontButton"> SE VORES UDVALG </button></p>
+            </p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../javascript/frontPage.js"></script>
+</body>
+
+</html>

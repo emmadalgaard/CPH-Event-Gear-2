@@ -192,7 +192,25 @@ function deleteOrderAlert() {
 /*
 MM: The deleteUser function deletes the current user from the userArray.
  */
-function deleteUser() {
+async function deleteUser() {
+    const customerArray = await (
+        await fetch("http://localhost:3000/customer")
+    ).json();
+    customerArray.forEach((customer) => {
+        if (customer.phone == localStorage.getItem("phone")) {
+            console.log(customer._id);
+            var customerId = customer._id;
+            customerArray.findByIdAndDelete(customerId,(error,customer) => {
+                console.log(error,customer)
+            })
+        }
+    });
+
+}
+
+
+
+/*function deleteUser() {
     var userArray = JSON.parse(localStorage.getItem("userArray"));
     var choice = window.confirm(
         "Er du sikker på, at du vil slette din bruger?"
@@ -204,7 +222,7 @@ function deleteUser() {
         again saved to local storage using the JSON.stringify method. The user is linked to the login page using window.location,
         and the logOut() function and deleteOrder() functions are called.
          */
-        for (var i = 0; i <= userArray.length; i++) {
+       /* for (var i = 0; i <= userArray.length; i++) {
             if (localStorage.getItem("phone") == userArray[i].phone) {
                 alert("Bruger er blevet slettet");
                 window.location = "Loginpage.html";
@@ -217,4 +235,4 @@ function deleteUser() {
             }
         }
     }
-}
+}*/

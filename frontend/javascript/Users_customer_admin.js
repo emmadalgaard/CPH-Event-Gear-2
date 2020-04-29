@@ -141,7 +141,6 @@ async function loginVal(phone, password) {
         //sætter telefonnummer i local storage for at tjekke, om en bruger er logget ind
         localStorage.setItem("phone", phone);
         //Sæt alle de andre i local storage også, så info vises på brugeren
-        localStorage.setItem('customerName', customerArray.customerName);
         window.location = "profile.html"
 
     } else {

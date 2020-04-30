@@ -189,6 +189,10 @@ function deleteOrderAlert() {
         deleteOrder();
     }
 }
+
+
+
+
 /*
 MM: The deleteUser function deletes the current user from the userArray.
  */
@@ -200,8 +204,9 @@ async function deleteUser() {
         if (customer.phone == localStorage.getItem("phone")) {
             console.log(customer._id);
             var customerId = customer._id;
-            customerArray.findByIdAndDelete(customerId,(error,customer) => {
-                console.log(error,customer)
+            Customer.findByIdAndDelete(customerId,(error,customer) => {
+                console.log(error,customer);
+                console.log("hello")
             })
         }
     });

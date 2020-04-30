@@ -57,12 +57,12 @@ function confirmTime() {
         document.getElementById("modelContainer1").style.display = '';
         document.getElementById("modelContainer2").style.display = '';
         document.getElementById("modelContainer3").style.display = '';
-        document.getElementById('jetski1Amount3').style.display = '';
-        document.getElementById('jetski1Amount2').style.display = '';
-        document.getElementById('jetski2Amount3').style.display = '';
-        document.getElementById('jetski2Amount2').style.display = '';
-        document.getElementById('jetski3Amount3').style.display = '';
-        document.getElementById('jetski3Amount2').style.display = '';
+        document.getElementById('eventpackage1Amount3').style.display = '';
+        document.getElementById('eventpackage1Amount2').style.display = '';
+        document.getElementById('eventpackage2Amount3').style.display = '';
+        document.getElementById('eventpackage2Amount2').style.display = '';
+        document.getElementById('eventpackage3Amount3').style.display = '';
+        document.getElementById('eventpackage3Amount2').style.display = '';
     } else { //MM: If the user has not filled out alle the date/time fields, an error is shown:
         alert("Udfyld venligst alle felter.");
     }
@@ -112,51 +112,50 @@ function confirmTime() {
 
     //MK: This if statement corrects the amount of jetski 1 if there are any reserved
     if (occupiedAmount1 == 1) {
-        document.getElementById('jetski1Amount3').style.display = "none";
+        document.getElementById('eventpackage1Amount3').style.display = "none";
     } else if (occupiedAmount1 == 2) {
-        document.getElementById('jetski1Amount3').style.display = "none";
-        document.getElementById('jetski1Amount2').style.display = "none";
+        document.getElementById('eventpackage1Amount3').style.display = "none";
+        document.getElementById('eventpackage1Amount2').style.display = "none";
         //MM:The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount1 >= 3) {
         document.getElementById("modelContainer1").style.display = "none";
     }
     //MK: This if statement corrects the amount of jetski 2 if there are any reserved
     if (occupiedAmount2 == 1) {
-        document.getElementById('jetski2Amount3').style.display = "none";
+        document.getElementById('eventpackage2Amount3').style.display = "none";
     } else if (occupiedAmount2== 2) {
-        document.getElementById('jetski2Amount3').style.display = "none";
-        document.getElementById('jetski2Amount2').style.display = "none";
+        document.getElementById('eventpackage2Amount3').style.display = "none";
+        document.getElementById('eventpackage2Amount2').style.display = "none";
         //MM:The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount2 >= 3) {
         document.getElementById("modelContainer2").style.display = "none";
     }
     //MK: This if statement corrects the amount of jetski 3 if there are any reserved
     if (occupiedAmount3 == 1) {
-        document.getElementById('jetski3Amount3').style.display = "none";
+        document.getElementById('eventpackage3Amount3').style.display = "none";
     } else if (occupiedAmount3 == 2) {
-        document.getElementById('jetski3Amount3').style.display = "none";
-        document.getElementById('jetski3Amount2').style.display = "none";
+        document.getElementById('eventpackage3Amount3').style.display = "none";
+        document.getElementById('eventpackage3Amount2').style.display = "none";
         //MM: The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount3 >= 3) {
         document.getElementById("modelContainer3").style.display = "none";
     }
 }
 //MM: The Jetski class is created. For now, only the price property is used in the code.
-class Jetski {
-    constructor(model, price, HorsePower) {
+class Eventpackage {
+    constructor(model, price) {
         this.model = model;
         this.price = price;
-        this.HorsePower = HorsePower;
     }
 }
 //MM: Objects are created from the Jetski class, representing the different jetski models.
-var jetski1= new Jetski('Sea Doo Spark', 300, 60)
-var jetski2= new Jetski('Yamaha Waverunner VX', 500, 125);
-var jetski3= new Jetski('Kawasaki STX 15F', 600, 160);
+var eventpackage1= new Eventpackage('Rund fødselsdag', 3000);
+var eventpackage2= new Eventpackage('Bryllup', 2000);
+var eventpackage3= new Eventpackage('Studentgilde', 4000);
 //the Object.freeze is used to make sure customers can't change the price property of the objects.
-Object.freeze(jetski1);
-Object.freeze(jetski2);
-Object.freeze(jetski3);
+Object.freeze(eventpackage1);
+Object.freeze(eventpackage2);
+Object.freeze(eventpackage3);
 
 
 /*MM: The following function is activated when the user changes the amount of jetskis in the HTML selector. It does the following:
@@ -169,7 +168,7 @@ function calculatePrice() {
     var orderAmount1JS = document.getElementById('orderAmount1').value;
     var orderAmount2JS = document.getElementById('orderAmount2').value;
     var orderAmount3JS = document.getElementById('orderAmount3').value;
-    var finalPrice = orderAmount1JS * jetski1.price + orderAmount2JS * jetski2.price + orderAmount3JS * jetski3.price;
+    var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
     document.getElementById('totalPrice').innerHTML = "Samlet Pris: " + finalPrice + " kr.";
     document.getElementById('basketDivFull').style.display = "";
 
@@ -180,19 +179,19 @@ function calculatePrice() {
     /* MM: Checks if the order amount if above 0, and if so, it adds the jetski name, photo, price and amount to the <p> in the basket.
     If the order amount is 0, it empties the <p> so that the element is hidden in the basket */
     if (orderAmount1JS > 0) {
-        document.getElementById('basketJetski1').innerHTML = "<img style=\"width:30%; float:left; \" src=\"../images/50år.png\"> Sea Doo Spark <br> Antal: " + orderAmount1JS + "<br> Pris: " + orderAmount1JS * jetski1.price + " kr.";
+        document.getElementById('basketEventpackage1').innerHTML = "<img style=\"width:30%; float:left; \" src=\"../images/50år.png\"> Rund Fødselsdag <br> Antal: " + orderAmount1JS + "<br> Pris: " + orderAmount1JS * eventpackage1.price + " kr.";
     } else {
-        document.getElementById('basketJetski1').innerHTML = "";
+        document.getElementById('basketEventpackage1').innerHTML = "";
     }
     if (orderAmount2JS > 0) {
-        document.getElementById('basketJetski2').innerHTML = "<br><img style=\"width:30%; float:left; \" src=\"../images/Bryllup.png\"> Yamaha Waverunner VX <br> Antal: " + orderAmount2JS + "<br> Pris: " + orderAmount2JS * jetski2.price + " kr.";
+        document.getElementById('basketEventpackage2').innerHTML = "<br><img style=\"width:30%; float:left; \" src=\"../images/Bryllup.png\"> Bryllup VX <br> Antal: " + orderAmount2JS + "<br> Pris: " + orderAmount2JS * eventpackage2.price + " kr.";
     } else {
-        document.getElementById('basketJetski2').innerHTML = "";
+        document.getElementById('basketEventpackage2').innerHTML = "";
     }
     if (orderAmount3JS > 0) {
-        document.getElementById('basketJetski3').innerHTML = "<br><img style=\"width:30%; float:left; \" src=\"../images/Studentergilde.png\"> Kawasaki STX-15F <br> Antal: " + orderAmount3JS + "<br> Pris: " + orderAmount3JS * jetski3.price + " kr.";
+        document.getElementById('basketEventpackage3').innerHTML = "<br><img style=\"width:30%; float:left; \" src=\"../images/Studentergilde.png\"> Studentergilde <br> Antal: " + orderAmount3JS + "<br> Pris: " + orderAmount3JS * eventpackage3.price + " kr.";
     } else {
-        document.getElementById('basketJetski3').innerHTML = "";
+        document.getElementById('basketEventpackage3').innerHTML = "";
     }
 }
 
@@ -239,7 +238,7 @@ function storeOrder() {
     var orderAmount3JS = document.getElementById('orderAmount3').value;
     // MK/MM: A variable is created to calculate the final price of the order.
     // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
-    var finalPrice = orderAmount1JS * jetski1.price + orderAmount2JS * jetski2.price + orderAmount3JS * jetski3.price;
+    var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
     //MK: A orderId is created to the order. The purpose of this is to make a unique ID for every order. This variable picks a random number up to 999.999.
     var orderId = Math.floor(Math.random()*10000) + 99999;
 

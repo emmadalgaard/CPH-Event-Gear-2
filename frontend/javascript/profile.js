@@ -90,13 +90,13 @@ async function populateOrders() {
             "/" +
             order.orderYear +
             "</br></br>" +
-            "Antal Sea Doo Spark: " +
+            "Rund fødselsdag: " +
             order.amount1 +
             "</br></br>" +
-            "Antal Yamaha Waverunner VX: " +
+            "Bryllup: " +
             order.amount2 +
             "</br></br>" +
-            "Antal Kawasaki STX-15F: " +
+            "Studentergilde: " +
             order.amount3 +
             "</br></br>" +
             "Samlet pris til betaling ved udlejning: " +

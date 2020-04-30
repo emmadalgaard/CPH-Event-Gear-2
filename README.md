@@ -1,1 +1,1 @@
-# emma_demo
+# CPH_event_gear

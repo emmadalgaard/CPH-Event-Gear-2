@@ -15,8 +15,7 @@ async function find(
 async function findById(model, id) {
     return model.findById(id);
 }
-//tjek op på dette
-async function findByIdAndDelete(model, id) {
+async function deleteById(model, id) {
     return model.findByIdAndDelete(id);
 }
 async function create(model, data) {
@@ -27,5 +26,6 @@ async function create(model, data) {
 module.exports = {
     find: find,
     findById: findById,
-    create: create
+    create: create,
+    deleteById: deleteById
 };

@@ -169,10 +169,6 @@ function deleteOrderAlert() {
     }
 }
 
-
-
-
-//Skal implementeres i backenden
 async function deleteUser() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
@@ -181,16 +177,17 @@ async function deleteUser() {
         if (customer.phone == localStorage.getItem("phone")) {
             console.log(customer._id);
             var customerId = customer._id;
-            // Denne metode er fundet i vores bog - kilde
-            let costumer;
-            costumer.findByIdAndDelete(customerId,(error,customer) => {
-                console.log(error,customer);
-                console.log("hello")
+
+            fetch("https://localhost:3000/customer/delete/" + customerId, {
+                method: "DELETE",
             })
+                .then(res => res.text()) // or res.json()
+                .then(res => console.log(res))
         }
     });
-
 }
+
+
 
 
 

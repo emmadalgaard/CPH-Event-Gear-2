@@ -124,7 +124,7 @@ The condition checks whether the input phone/password matches the phone/password
 If it matches, the user is sent to the front page, and the user information is stored in their respective keys.
  */
 
-//receives a JSON response from the server and then converts the response to a JavaScript object.
+// kommentarer til denne
 async function loginVal(phone, password) {
     let success = false;
     const customerArray = await (
@@ -140,6 +140,8 @@ async function loginVal(phone, password) {
         console.log("You successfully logged in");
         //sætter telefonnummer i local storage for at tjekke, om en bruger er logget ind
         localStorage.setItem("phone", phone);
+
+
         //Sæt alle de andre i local storage også, så info vises på brugeren
         window.location = "profile.html"
 

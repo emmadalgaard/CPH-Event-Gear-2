@@ -13,8 +13,8 @@ async function createCustomer(data) {
     return await dbService.create(customer, data);
 }
 
-async function deleteCustomer() {
-    return await dbService.create(customer,{});
+async function deleteCustomer(id) {
+    return await dbService.deleteById(customer, id);
 }
 
 module.exports = {
@@ -47,22 +47,29 @@ module.exports = {
 
         //DELETE
         route.delete("/delete/:id", (req, res) => {
-            deleteCustomer().then((result) => {
-                res.json(result);
-            })
-            });
-        /*route.delete("/customer/delete/:id", (req, res) => {
-            const requestId = req.params._id;
+            try {
+                deleteCustomer(req.params.id).then((result) => {
+                    res.status(200).json(result);
+                });
+            } catch (p) {
+                res.status(500).send(p);
+            }
+        });
 
-            let customer = customers.filter(customer => {
-                return customer._id == requestId;
+
+
+        /*route.delete("/delete/:id", (req, res) => {
+            const reqId = req.params.id;
+
+            let user = customer.filter(user => {
+                return user.id == reqId;
             })[0];
 
-            const index = customers.idexOf(customer);
+            const index = customer.indexOf(user);
 
-            customers.splice(index,1);
+            customer.splice(index, 1);
 
-            res.json({message: `User ${requestId} deleted.`})
+            res.json({message: `User ${reqId} deleted.`})
         });*/
 
         //PUT

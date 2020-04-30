@@ -13,6 +13,10 @@ async function createOrder(data) {
     return await dbService.create(order, data);
 }
 
+async function deleteOrder(id) {
+    return await dbService.deleteById(order, id);
+}
+
 module.exports = {
     addEndpoints: async (router) => {
         router.use("/order", route);
@@ -34,5 +38,15 @@ module.exports = {
         });
 
         //implement put (update) and delete
+        //DELETE
+        route.delete("/delete/:id", (req, res) => {
+            try {
+                deleteOrder(req.params.id).then((result) => {
+                    res.status(200).json(result);
+                });
+            } catch (p) {
+                res.status(500).send(p);
+            }
+        });
     },
 };

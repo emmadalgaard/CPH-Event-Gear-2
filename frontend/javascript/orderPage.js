@@ -217,7 +217,7 @@ function calculatePrice() {
 MM: If no orderArray exists in localStorage, an orderArray with predefined users is pushed to localStorage using JSON.stringify.
  */
 //Statements written by: MD
-var orderArray;
+/*var orderArray;
 if (localStorage.getItem('orderArray')==null) {
     orderArray = [];
     orderArray.push(new Order('45678904', '1', '1', '1', '03', '3', '2019', '10-12', '1400', "548676"));
@@ -228,7 +228,7 @@ if (localStorage.getItem('orderArray')==null) {
 
     var orderArrayString = JSON.stringify(orderArray);
     localStorage.setItem('orderArray', orderArrayString);
-}
+}*/
 
 //MK: This function's purpose is to store the created order in the orderArray in localStorage.
 //Function written by: MM & MD
@@ -249,7 +249,11 @@ function storeOrder() {
     JSON.stringify() and localStorage.setItem().
      */
     var orderArray = JSON.parse(localStorage.getItem('orderArray'));
-    orderArray.push(new Order(localStorage.getItem('phone'), orderAmount1JS, orderAmount2JS, orderAmount3JS, document.getElementById('rentDay').value, document.getElementById('rentMonth').value, document.getElementById('rentYear').value, document.getElementById('rentTime').value, finalPrice, orderId));
+    orderArray.push(new Order(localStorage.getItem('phone'), orderAmount1JS, orderAmount2JS, orderAmount3JS,
+        document.getElementById('rentDay').value,
+        document.getElementById('rentMonth').value,
+        document.getElementById('rentYear').value,
+        finalPrice, orderId));
 
     localStorage.setItem('orderArray', JSON.stringify(orderArray));
     window.location = "orderConfirmation.html";

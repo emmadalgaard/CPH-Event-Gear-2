@@ -15,6 +15,10 @@ async function find(
 async function findById(model, id) {
     return model.findById(id);
 }
+//tjek op på dette
+async function findByIdAndDelete(model, id) {
+    return model.findByIdAndDelete(id);
+}
 async function create(model, data) {
     console.log(data);
     return model.create(data);

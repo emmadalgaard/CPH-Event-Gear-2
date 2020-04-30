@@ -32,13 +32,33 @@ function logOut() {
     localStorage.removeItem("password");
 }
 
-async function populateUsers() {
-    // userArray = await ( await fetch ("localhost:3000/customers"))
-    // Fordi vi bruger await, venter resten af denne funktion med at eksekvere, indtil customers rent faktisk er henten.
-    // Når vi har modtaget svar løbes dette igennem, og laver om til Customer objecter
-    // de her customer objecter kan vi så hive specific data ud af, og beslutte os for, hvordan denne skal vises. 
-}
+//Laver en funktion, der henter data fra databasen og sætter det i Local Storage, så info vises på bruger
+async function populateCustomers() {
+    const customerArray = await (
+        await fetch("http://localhost:3000/customer")
+    ).json();
+    customerArray.forEach((customer) => {
+        // En if statement bruges til at tjekke, at det er en current user ved at sammenligne databasens phone med local storage, fordi phone er unikt for ver bruger.
+        if (customer.phone == localStorage.getItem("phone")) {
 
+            localStorage.getItem("customerName");
+            localStorage.getItem("customerAddress");
+            localStorage.getItem("customerCity");
+            localStorage.getItem("customerPhone");
+            localStorage.getItem("customerEmail");
+
+            document.getElementById("customerName").innerHTML = customer.customerName;
+            document.getElementById("customerAddress").innerHTML = customer.address;
+            document.getElementById("customerCity").innerHTML = customer.city;
+            document.getElementById("customerPhone").innerHTML = customer.phone;
+            document.getElementById("customerEmail").innerHTML = customer.email;
+        }
+    })
+}
+// Kalder funktionen for at få info frem
+populateCustomers();
+
+// Laver en funktion, der henter data fra databasen for order og viser det på brugerprofilen
 async function populateOrders() {
     const orderArray = await (
         await fetch("http://localhost:3000/order")
@@ -57,12 +77,10 @@ async function populateOrders() {
         //     method: "PUT",
         // });
 
-        /* MM: A new variable is created and set equal to the createElement() method, as we want to create a new <p> tag.
-         */
+        //new variable is created and set equal to the createElement() method, as we want to create a new <p> tag.
         var orderInfo = document.createElement("P");
-        /*
-            MM: The innerHTML of the newly created <p> tag is set equal to a section of text and the variables above.
-             */
+
+        //The innerHTML of the newly created <p> tag is set equal to a section of text and the variables above.
         //amount 1,2,3 skal checkes for, om de er tomme - hvis tomme, skal de ikke indgå af ordren
         orderInfo.innerHTML =
             "Dato for udlejning: " +
@@ -86,57 +104,18 @@ async function populateOrders() {
             "</br></br> Ordre ID: " +
             order._id +
             "</br></br>";
-        /*
-            MM: The appendChild method is used to set the newly created <p> tag as a child to to the ID "orderList", specified in the
-            getElementById method.
-             */
+
+         //The appendChild method is used to set the newly created <p> tag as a child to to the ID "orderList", specified in the getElementById method.
         document.getElementById("orderList").appendChild(orderInfo);
-        /*
-            MM: The following line empties the innerHTML of the noOrders ID tag. If the line below is not run, the text
-            explains that there are no orders. Whenever the line below is run, the text is removed.
-             */
+
+        /*The following line empties the innerHTML of the noOrders ID tag. If the line below is not run, the text
+            explains that there are no orders. Whenever the line below is run, the text is removed.*/
         document.getElementById("noOrders").innerHTML = "";
     }
 }
+// Kalder funktionen for at vise ordreinfo
+populateOrders();
 
-/*  MM: The following function is activated whenever the window has loaded. This is done by using the "window.onload"
-event handler.
- */
-window.onload = function getCustomerInfo() {
-    /*
-    MM:
-    The code retrieves information from local storage by using the "getItem" command, and specifying the key that the
-    information should be retrieved from. This retrieved information is then saved to the newly created variables.
-     */
-    var storedName = localStorage.getItem("customerName");
-    var storedAddress = localStorage.getItem("address");
-    var storedCity = localStorage.getItem("city");
-    var storedPhone = localStorage.getItem("phone");
-    var storedEmail = localStorage.getItem("email");
-
-    /*
-    MM: Inserts the value of the variables created above into the innerHTML of a set of <p> tags.
-     */
-    document.getElementById("customerName").innerHTML = storedName;
-    document.getElementById("customerAddress").innerHTML = storedAddress;
-    document.getElementById("customerCity").innerHTML = storedCity;
-    document.getElementById("customerPhone").innerHTML = storedPhone;
-    document.getElementById("customerEmail").innerHTML = storedEmail;
-
-    /* MM: This if statement checks if there is a "phone" value stored in local storage. If there is no value saved, it
-    links the user to the login page.
-     */
-    // if (localStorage.getItem('phone') == null) {
-    //     window.location = "Loginpage.html"
-    // }
-    /* MM: This line of code retrieves the innerHTML part of the HTML tag with id "loginPhone" and sets it equal to some text and
-    the phone key's value stored in local storage.
-     */
-    document.getElementById("loginPhone").innerHTML =
-        "Logget ind med ID: <br>" + localStorage.getItem("phone");
-
-    populateOrders();
-};
 
 /*
 MM: Two variables are created. The "selection" variable is set equal to the HTML select tag with the ID "orderID".
@@ -193,9 +172,7 @@ function deleteOrderAlert() {
 
 
 
-/*
-MM: The deleteUser function deletes the current user from the userArray.
- */
+//Skal implementeres i backenden
 async function deleteUser() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
@@ -204,7 +181,9 @@ async function deleteUser() {
         if (customer.phone == localStorage.getItem("phone")) {
             console.log(customer._id);
             var customerId = customer._id;
-            Customer.findByIdAndDelete(customerId,(error,customer) => {
+            // Denne metode er fundet i vores bog - kilde
+            let costumer;
+            costumer.findByIdAndDelete(customerId,(error,customer) => {
                 console.log(error,customer);
                 console.log("hello")
             })
@@ -212,6 +191,7 @@ async function deleteUser() {
     });
 
 }
+
 
 
 

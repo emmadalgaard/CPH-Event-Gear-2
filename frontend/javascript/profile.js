@@ -124,29 +124,57 @@ The "option" variable is set equal to the options of the "selection" variable.
 var selection = document.getElementById("orderId");
 
 
-// MM: The following function deletes the order that is currently selected.
-function deleteOrder() {
+// Nedenstående funktion kan ikke køre, før post order er implementeret, så den kan slette den aktuelle ordre
+/*Nedenstående funktion sletter en ordre fra databasen ved at gå alle objekter igennem i customerArray'et i databasen
+og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så den finder current user
+deleteOrder() kører, når der klikkes på knappen "anuller bestilling", som er sat op i profile.html
+hvis der trykkes ja til sletning af ordren, vil metoden DELETE kører og fetche endpointet /delete/orderId */
+async function deleteOrder() {
+    const customerArray = await (
+        await fetch("http://localhost:3000/customer")
+    ).json();
+    customerArray.forEach((order) => {
+        if (order.phone == localStorage.getItem("phone")) {
+            orderId=order._id
+        }
+
+    });
+    var choice = window.confirm(
+        "Er du sikker på, at du vil slette din ordre?");
+    if (choice == true) {
+        //Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
+        fetch("http://localhost:3000/order/delete/" + orderId, {
+            method: "DELETE",
+        })
+            .then(res => res.text()) // or res.json()
+            .then(res => console.log(res))
+
+        alert("Din ordre er blevet slettet");
+    }
+}
+
+    /*
     var orderArray = JSON.parse(localStorage.getItem("orderArray"));
     /*
     MM: The following for loop cycles through all the stored orders. If the currently selected order is equal to
     the stored order's orderId attribute, the order is removed from the order array.
      */
-    for (var i = 0; i < orderArray.length; i++) {
-        if (selection.value == orderArray[i].orderId) {
+    /*for (var i = 0; i < orderArray.length; i++) {
+        if (selection.value == orderArray[i].orderId) {*/
             /*
             MM: The page is reloaded using the location property.
              */
-            window.location = "profile.html";
+           /// window.location = "profile.html";
             /*
             MM: The splice method is used to remove a section of the orderArray. It specifies that at position i, it should
             remove 1 item.
              */
-            orderArray.splice(i, 1);
+            //orderArray.splice(i, 1);
             /*
             MM: Using the JSON.stringify method, the orderArray array is saved as a string in the variable "orderArrayString".
             The variable is saved to the key "orderArray" in local storage using the localStorage.setItem method.
              */
-            var orderArrayString = JSON.stringify(orderArray);
+            /*var orderArrayString = JSON.stringify(orderArray);
             localStorage.setItem("orderArray", orderArrayString);
         }
     }
@@ -155,24 +183,21 @@ function deleteOrder() {
 MM: The following function prompts the user to confirm that they want to delete their order.
  */
 //Function written by Morten Dyberg
-function deleteOrderAlert() {
+/*function deleteOrderAlert() {
     /*
     MM: The window.confirm method prompts the user to either confirm or cancel the cancellation action.
      */
-    var choice = window.confirm("Er du sikker på, at du vil slette din ordre?");
+    /*var choice = window.confirm("Er du sikker på, at du vil slette din ordre?");
     /*
     MM: If the user confirms to delete their order, an alert appears and the deleteOrder function is called.
      */
-    if (choice == true) {
+    /*if (choice == true) {
         alert("Ordren er blevet slettet");
         deleteOrder();
     }
-}
+}*/
 
-/*Nedenstående funktion sletter en bruger fra databasen ved at gå alle objekter igennem i customerArray'et i databasen
-og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så vi finder current user
-deleteUser() kører, når der klikkes på knappen "slet bruger", som er sat op i profile.html
-hvis der trykkes ja til sletning af bruger, vil metoden DELETE kører og fetche endpointet /delete/customerId */
+// Nedenstående funktion sletter en bruger og er lavet på præcis samme måde som deleteOrder-funktionen
 async function deleteUser() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
@@ -186,12 +211,12 @@ async function deleteUser() {
     var choice = window.confirm(
         "Er du sikker på, at du vil slette din bruger?");
     if (choice == true) {
-        // Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
+        //Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
         fetch("http://localhost:3000/customer/delete/" + customerId, {
             method: "DELETE",
         })
             .then(res => res.text()) // or res.json()
-            .then(res => console.log(res));
+            .then(res => console.log(res))
 
         alert("Bruger er blevet slettet");
         window.location = "index.html";
@@ -200,35 +225,3 @@ async function deleteUser() {
 
     }
 }
-
-
-
-
-
-
-/*function deleteUser() {
-    var userArray = JSON.parse(localStorage.getItem("userArray"));
-    var choice = window.confirm(
-        "Er du sikker på, at du vil slette din bruger?"
-    );
-    if (choice == true) {
-        /*
-        MM: The following for loop runs through all the stored users in the userArray, and if the active phone and the
-        phone attribute of the i object in the array is the same, it splices the number i user from the array. The array is then
-        again saved to local storage using the JSON.stringify method. The user is linked to the login page using window.location,
-        and the logOut() function and deleteOrder() functions are called.
-         */
-       /* for (var i = 0; i <= userArray.length; i++) {
-            if (localStorage.getItem("phone") == userArray[i].phone) {
-                alert("Bruger er blevet slettet");
-                window.location = "Loginpage.html";
-                userArray.splice(i, 1);
-
-                var userArrayString = JSON.stringify(userArray);
-                localStorage.setItem("userArray", userArrayString);
-                logOut();
-                deleteOrder();
-            }
-        }
-    }
-}*/

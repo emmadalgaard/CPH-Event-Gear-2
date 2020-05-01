@@ -142,21 +142,19 @@ The "option" variable is set equal to the options of the "selection" variable.
  */
 var selection = document.getElementById("orderId");
 
-
-// Nedenstående funktion kan ikke køre, før post order er implementeret, så den kan slette den aktuelle ordre
-/*Nedenstående funktion sletter en ordre fra databasen ved at gå alle objekter igennem i customerArray'et i databasen
+/*Nedenstående funktion sletter en ordre fra databasen ved at gå alle objekter igennem i order arrayet'et i databasen
 og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så den finder current user
 deleteOrder() kører, når der klikkes på knappen "anuller bestilling", som er sat op i profile.html
-hvis der trykkes ja til sletning af ordren, vil metoden DELETE kører og fetche endpointet /delete/orderId */
+hvis der trykkes ja til sletning af ordren, vil metoden DELETE kører og fetche endpointet /delete/order/Id */
 async function deleteOrder() {
-    const customerArray = await (
-        await fetch("http://localhost:3000/customer")
+    const orderArray = await (
+        await fetch("http://localhost:3000/order")
     ).json();
-    customerArray.forEach((order) => {
+    orderArray.forEach((order) => {
         if (order.phone == localStorage.getItem("phone")) {
             orderId=order._id
+            console.log(orderId);
         }
-
     });
     var choice = window.confirm(
         "Er du sikker på, at du vil slette din ordre?");
@@ -169,6 +167,7 @@ async function deleteOrder() {
             .then(res => console.log(res));
 
         alert("Din ordre er blevet slettet");
+        window.location = "profile.html";
     }
 }
 
@@ -240,7 +239,6 @@ async function deleteUser() {
         alert("Bruger er blevet slettet");
         window.location = "index.html";
         logOut();
-        //deleteOrder(); // Den skal ligeledes slette ordren, så snart, vi har implementeret endpoints i frontenden på ordre
-
+        deleteOrder();
     }
 }

@@ -1,6 +1,6 @@
 //https://dev.to/pacheco/designing-a-better-architecture-for-a-node-js-api-24d
 async function find(
-    model,
+    model, // model er en mongoose.model jævnfør de filer som hører ind under models
     query, // gør at vi kan filtrerer på data, fx kan man få alle med: "name": "Emma" ud 
     projection = { __v: 0 },
     sort = { _id: 1 },
@@ -23,9 +23,14 @@ async function create(model, data) {
     return model.create(data);
 }
 
+async function findByIdAndUpdate(model, id, body) {
+    return model.findByIdAndUpdate(id, body);
+}
+
 module.exports = {
     find: find,
     findById: findById,
     create: create,
-    deleteById: deleteById
+    deleteById: deleteById,
+    findByIdAndUpdate: findByIdAndUpdate
 };

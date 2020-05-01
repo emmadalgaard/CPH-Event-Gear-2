@@ -16,6 +16,9 @@ async function createCustomer(data) {
 async function deleteCustomer(id) {
     return await dbService.deleteById(customer, id);
 }
+async function updateCustomer(id, body) {
+    return await dbService.findByIdAndUpdate(customer, id, body);
+}
 
 module.exports = {
     addEndpoints: async (router) => {
@@ -73,5 +76,17 @@ module.exports = {
         });*/
 
         //PUT
+        route.put("/update/:id", (req, res) => {
+            try {
+                //updateCustomer(req.params.id,{$set: {'phone' : req.body.phone}}, {new:true}).then((result) => {
+                updateCustomer(req.params.id, req.body).then((result) => {
+                    res.status(200).json(result);
+                    console.log(result)
+                });
+            } catch (t) {
+                res.status(500).send(t);
+            }
+        });
+
     },
 };

@@ -230,13 +230,13 @@ if (localStorage.getItem('orderArray')==null) {
     localStorage.setItem('orderArray', orderArrayString);
 }*/
 
-//MK: This function's purpose is to store the created order in the orderArray in localStorage.
-//Function written by: MM & MD
+//MK: This function's purpose is to store the created order in the database.
 async function storeOrder() {
     // MK:Variables are created for the amount picked of the three different types of Jetski.
     var orderAmount1JS = document.getElementById('orderAmount1').value;
     var orderAmount2JS = document.getElementById('orderAmount2').value;
     var orderAmount3JS = document.getElementById('orderAmount3').value;
+    // Variables are created for day, month and year.
     var orderDay = document.getElementById('rentDay').value;
     var orderMonth = document.getElementById('rentMonth').value;
     var orderYear = document.getElementById('rentYear').value;
@@ -266,11 +266,6 @@ async function storeOrder() {
     window.location = "profile.html";
 }
 
-    /* MM: The orderArray is retrieved from local storage by using JSON.parse.
-    The values of the new order is collected from variables used earlier, and from HTML elements by using getElementById().
-    The new order is pushed onto the retrieved orderArray, and the entire updated array is saved to local storage by using
-    JSON.stringify() and localStorage.setItem().
-     */
 
 
 

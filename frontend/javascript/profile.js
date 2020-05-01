@@ -80,6 +80,10 @@ async function populateOrders() {
         //new variable is created and set equal to the createElement() method, as we want to create a new <p> tag.
         var orderInfo = document.createElement("P");
 
+        var rundFodselsdag = "Rund fødselsdag:";
+        var bryllup = "Bryllup:";
+        var studentergilde = "Studentergilde:"
+
         //The innerHTML of the newly created <p> tag is set equal to a section of text and the variables above.
         //amount 1,2,3 skal checkes for, om de er tomme - hvis tomme, skal de ikke indgå af ordren
         orderInfo.innerHTML =
@@ -90,13 +94,13 @@ async function populateOrders() {
             "/" +
             order.orderYear +
             "</br></br>" +
-            "Rund fødselsdag: " +
+            rundFodselsdag +
             order.amount1 +
             "</br></br>" +
-            "Bryllup: " +
+            bryllup +
             order.amount2 +
             "</br></br>" +
-            "Studentergilde: " +
+            studentergilde  +
             order.amount3 +
             "</br></br>" +
             "Samlet pris til betaling ved udlejning: " +
@@ -111,6 +115,18 @@ async function populateOrders() {
         /*The following line empties the innerHTML of the noOrders ID tag. If the line below is not run, the text
             explains that there are no orders. Whenever the line below is run, the text is removed.*/
         document.getElementById("noOrders").innerHTML = "";
+
+        if (order.amount1 == null) {
+            console.log("ingen rund føs");
+        }
+
+        if (order.amount2 == null) {
+            console.log("intet bryllup");
+        }
+
+        if (order.amount3 == null) {
+            console.log("intet studentergilde");
+        }
     }
 }
 // Kalder funktionen for at vise ordreinfo

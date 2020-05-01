@@ -3,6 +3,8 @@ If the condition is true, it sends the user to the login page, as the user is no
 The function is activated by the onclick attribute specified on the "Bestil tid" button HTML tag.
 Dette skal laves om til, at man som gæst godt kan se produkterne, man kan bare ikke tilføje dem til en ordre.
  */
+window.onload = populateCustomers();
+
 function checkLoginOrderPage() {
     if (localStorage.getItem("phone") == null) {
         window.location = "Loginpage.html";
@@ -56,7 +58,7 @@ async function populateCustomers() {
     })
 }
 // Kalder funktionen for at få info frem
-populateCustomers();
+window.onload = populateCustomers();
 
 // Laver en funktion, der henter data fra databasen for order og viser det på brugerprofilen
 async function populateOrders() {

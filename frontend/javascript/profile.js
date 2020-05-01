@@ -147,7 +147,7 @@ async function deleteOrder() {
             method: "DELETE",
         })
             .then(res => res.text()) // or res.json()
-            .then(res => console.log(res))
+            .then(res => console.log(res));
 
         alert("Din ordre er blevet slettet");
     }

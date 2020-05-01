@@ -169,22 +169,36 @@ function deleteOrderAlert() {
     }
 }
 
+/*Nedenstående funktion sletter en bruger fra databasen ved at gå alle objekter igennem i customerArray'et i databasen
+og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så vi finder current user
+deleteUser() kører, når der klikkes på knappen "slet bruger", som er sat op i profile.html
+hvis der trykkes ja til sletning af bruger, vil metoden DELETE kører og fetche endpointet /delete/customerId */
 async function deleteUser() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
     ).json();
     customerArray.forEach((customer) => {
         if (customer.phone == localStorage.getItem("phone")) {
-            console.log(customer._id);
-            var customerId = customer._id;
-
-            fetch("https://localhost:3000/customer/delete/" + customerId, {
-                method: "DELETE",
-            })
-                .then(res => res.text()) // or res.json()
-                .then(res => console.log(res))
+            customerId=customer._id
         }
+
     });
+    var choice = window.confirm(
+        "Er du sikker på, at du vil slette din bruger?");
+    if (choice == true) {
+        // Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
+        fetch("http://localhost:3000/customer/delete/" + customerId, {
+            method: "DELETE",
+        })
+            .then(res => res.text()) // or res.json()
+            .then(res => console.log(res));
+
+        alert("Bruger er blevet slettet");
+        window.location = "index.html";
+        logOut();
+        //deleteOrder(); // Den skal ligeledes slette ordren, så snart, vi har implementeret endpoints i frontenden på ordre
+
+    }
 }
 
 

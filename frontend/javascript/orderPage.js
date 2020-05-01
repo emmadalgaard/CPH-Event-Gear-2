@@ -93,6 +93,7 @@ function confirmTime() {
             }
             //MM:Counts the amount of jetski2 reserved and adds to the var
             if (orderArray[i].amount2 == 1) {
+
                 occupiedAmount2++;
             } else if (orderArray[i].amount2 == 2) {
                 occupiedAmount2+=2;
@@ -229,32 +230,43 @@ if (localStorage.getItem('orderArray')==null) {
     localStorage.setItem('orderArray', orderArrayString);
 }*/
 
-//MK: This function's purpose is to store the created order in the orderArray in localStorage.
-//Function written by: MM & MD
-function storeOrder() {
+//MK: This function's purpose is to store the created order in the database.
+async function storeOrder() {
     // MK:Variables are created for the amount picked of the three different types of Jetski.
     var orderAmount1JS = document.getElementById('orderAmount1').value;
     var orderAmount2JS = document.getElementById('orderAmount2').value;
     var orderAmount3JS = document.getElementById('orderAmount3').value;
+    // Variables are created for day, month and year.
+    var orderDay = document.getElementById('rentDay').value;
+    var orderMonth = document.getElementById('rentMonth').value;
+    var orderYear = document.getElementById('rentYear').value;
     // MK/MM: A variable is created to calculate the final price of the order.
     // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
     var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
-    //MK: A orderId is created to the order. The purpose of this is to make a unique ID for every order. This variable picks a random number up to 999.999.
-    var orderId = Math.floor(Math.random()*10000) + 99999;
 
-    /* MM: The orderArray is retrieved from local storage by using JSON.parse.
-    The values of the new order is collected from variables used earlier, and from HTML elements by using getElementById().
-    The new order is pushed onto the retrieved orderArray, and the entire updated array is saved to local storage by using
-    JSON.stringify() and localStorage.setItem().
-     */
-    var orderArray = JSON.parse(localStorage.getItem('orderArray'));
-    orderArray.push(new Order(localStorage.getItem('phone'), orderAmount1JS, orderAmount2JS, orderAmount3JS,
-        document.getElementById('rentDay').value,
-        document.getElementById('rentMonth').value,
-        document.getElementById('rentYear').value,
-        finalPrice, orderId));
+    rawResponse = await fetch("http://localhost:3000/order", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "phone": localStorage.getItem("phone"),
+            "amount1": orderAmount1JS,
+            "amount2": orderAmount2JS,
+            "amount3": orderAmount3JS,
+            "orderDay": orderDay,
+            "orderMonth": orderMonth,
+            "orderYear": orderYear,
+            "orderPrice": finalPrice,
+        })
+    });
 
-    localStorage.setItem('orderArray', JSON.stringify(orderArray));
-    window.location = "orderConfirmation.html";
+    alert("Din ordre er modtaget");
+    window.location = "profile.html";
 }
+
+
+
+
 

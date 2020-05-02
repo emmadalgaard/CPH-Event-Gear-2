@@ -90,28 +90,18 @@ async function populateOrders() {
             //The innerHTML of the newly created <p> tag is set equal to a section of text and the variables above.
             //amount 1,2,3 skal checkes for, om de er tomme - hvis tomme, skal de ikke indgå af ordren
             if (order.phone == localStorage.getItem("phone")) {
-            orderInfo.innerHTML =
-                "Dato for udlejning: " +
-                order.orderDay +
-                "/" +
-                order.orderMonth +
-                "/" +
-                order.orderYear +
-                "</br></br>" +
-                rundFodselsdag +
-                order.amount1 +
-                "</br></br>" +
-                bryllup +
-                order.amount2 +
-                "</br></br>" +
-                studentergilde +
-                order.amount3 +
-                "</br></br>" +
-                "Samlet pris til betaling ved udlejning: " +
-                order.orderPrice +
-                "</br></br> Ordre ID: " +
-                order._id +
-                "</br></br>";
+                orderInfo.innerHTML =
+                    `Dato for udlejning:
+                    ${order.orderDay} / ${order.orderMonth} / ${order.orderYear}
+                    <br> <br> 
+                    ${order.amount1 ? rundFodselsdag + order.amount1 + "<br>" : ""}
+                    ${order.amount2 ? bryllup + order.amount2 + "<br>" : ""}
+                    ${order.amount3 ? studentergilde + order.amount3 + "<br>" : ""}
+                    <br>
+                    Samlet pris til betaling ved udlejning: ${order.orderPrice}<br><br>
+                    Ordre ID: ${order._id}
+                    <hr>`
+
 
             //The appendChild method is used to set the newly created <p> tag as a child to to the ID "orderList", specified in the getElementById method.
             document.getElementById("orderList").appendChild(orderInfo);
@@ -119,18 +109,7 @@ async function populateOrders() {
             /*The following line empties the innerHTML of the noOrders ID tag. If the line below is not run, the text
                 explains that there are no orders. Whenever the line below is run, the text is removed.*/
             document.getElementById("noOrders").innerHTML = "";
-
-            if (order.amount1 == null) {
-                console.log("ingen rund føs");
-            }
-
-            if (order.amount2 == null) {
-                console.log("intet bryllup");
-            }
-
-            if (order.amount3 == null) {
-                console.log("intet studentergilde");
-            }
+            
         }
     }
 }

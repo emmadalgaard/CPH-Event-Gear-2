@@ -39,7 +39,7 @@ function checkLoginProfilePage() {
 2. It checks if there already are reservations for the given time/date, and adjusts the amount of jetskis shown.
  */
 //Function written by: MM
-function confirmTime() {
+async function confirmTime() {
     /* MK/MM Creating variables that represent the user selection of date and time we assign the variable to the different elementID's from our HTML
     */
     var rentDayID = document.getElementById("rentDay");
@@ -70,8 +70,12 @@ function confirmTime() {
        MM:
        Two variables are created. The variable "orderAmount" is set equal to the length of the array "orderArray" that is saved in local storage.
         */
-    var orderAmount = JSON.parse(localStorage.getItem('orderArray')).length;
-    var orderArray = JSON.parse(localStorage.getItem('orderArray'));
+    const orderArray = await (
+        await fetch("http://localhost:3000/order")
+    ).json();
+
+    var orderAmount = orderArray.length;
+    //var orderArray = JSON.parse(localStorage.getItem('orderArray'));
     //MK: Three new variables are created for occupiedAmount1/2/3 which refers to the jetskis. They are defined using number 0 because they as a standard are not rented.
     var occupiedAmount1 = 0;
     var occupiedAmount2 = 0;
@@ -231,6 +235,7 @@ if (localStorage.getItem('orderArray')==null) {
 }*/
 
 //MK: This function's purpose is to store the created order in the database.
+// Dette skal laves objektorienteret
 async function storeOrder() {
     // MK:Variables are created for the amount picked of the three different types of Jetski.
     var orderAmount1JS = document.getElementById('orderAmount1').value;
@@ -240,27 +245,23 @@ async function storeOrder() {
     var orderDay = document.getElementById('rentDay').value;
     var orderMonth = document.getElementById('rentMonth').value;
     var orderYear = document.getElementById('rentYear').value;
+
+    let phone = localStorage.getItem("phone");
+    let orderId = null;
     // MK/MM: A variable is created to calculate the final price of the order.
     // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
     var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
 
-    rawResponse = await fetch("http://localhost:3000/order", {
+    let o = new Order(orderId, phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);
+    console.log(o)
+    await fetch("http://localhost:3000/order", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            "phone": localStorage.getItem("phone"),
-            "amount1": orderAmount1JS,
-            "amount2": orderAmount2JS,
-            "amount3": orderAmount3JS,
-            "orderDay": orderDay,
-            "orderMonth": orderMonth,
-            "orderYear": orderYear,
-            "orderPrice": finalPrice,
+        body: JSON.stringify(o)
         })
-    });
 
     alert("Din ordre er modtaget");
     window.location = "profile.html";

@@ -1,7 +1,7 @@
 /*MD:
 The purpose of the code is validate the input in the registration form. We achieve this by using a boolean value
 that returns false if some of the text fields are invalid.
- */
+*/
 async function register() {
     var customerName = document.getElementById("customerName").value;
     var address = document.getElementById("address").value;
@@ -70,21 +70,17 @@ async function register() {
     been met in order to make the form_valid = false.
     skriv kommentar til, hvad der sker i nedenstående rawReponse og læs op på det
     */
+    //nedenstående er lavet om, så det er objektorienteret - den henter felterne fra klassen
+    //Brug samme til PUT
     if (form_valid) {
-        rawResponse = await fetch("http://localhost:3000/customer", {
+        let c = new Customer(customerName, address, city, phone, email, password);
+        await fetch("http://localhost:3000/customer", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                "customerName": customerName,
-                "address": address,
-                "city": city,
-                "phone": phone,
-                "email": email,
-                "password": password
-            })
+            body: JSON.stringify(c)
         });
 
         alert("Ny bruger er blevet oprettet");

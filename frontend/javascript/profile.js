@@ -219,7 +219,7 @@ async function deleteUser() {
 
         alert("Bruger er blevet slettet");
         window.location = "index.html";
+        await deleteOrder();
         logOut();
-        deleteOrder();
     }
 }

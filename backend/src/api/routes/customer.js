@@ -59,22 +59,6 @@ module.exports = {
             }
         });
 
-
-
-        /*route.delete("/delete/:id", (req, res) => {
-            const reqId = req.params.id;
-
-            let user = customer.filter(user => {
-                return user.id == reqId;
-            })[0];
-
-            const index = customer.indexOf(user);
-
-            customer.splice(index, 1);
-
-            res.json({message: `User ${reqId} deleted.`})
-        });*/
-
         //PUT
         route.put("/update/:id", (req, res) => {
             try {

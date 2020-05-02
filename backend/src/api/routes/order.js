@@ -16,6 +16,9 @@ async function createOrder(data) {
 async function deleteOrder(id) {
     return await dbService.deleteById(order, id);
 }
+async function updateOrder(id, body) {
+    return await dbService.findByIdAndUpdate(order, id, body);
+}
 
 module.exports = {
     addEndpoints: async (router) => {
@@ -37,7 +40,6 @@ module.exports = {
             }
         });
 
-        //implement put (update) and delete
         //DELETE
         route.delete("/delete/:id", (req, res) => {
             try {
@@ -46,6 +48,18 @@ module.exports = {
                 });
             } catch (p) {
                 res.status(500).send(p);
+            }
+        });
+
+        //PUT
+        route.put("/update/:id", (req, res) => {
+            try {
+                updateOrder(req.params.id, req.body).then((result) => {
+                    res.status(200).json(result);
+                    console.log(result)
+                });
+            } catch (t) {
+                res.status(500).send(t);
             }
         });
     },

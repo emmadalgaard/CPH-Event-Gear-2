@@ -108,7 +108,7 @@ async function uploadUpdatedProfile() {
             },
             body: JSON.stringify(c)
         });
-
+        localStorage.setItem("customer", JSON.stringify(c));
         alert("Din brugeroplysninger er nu opdateret");
         window.location = "profile.html";
     } else {

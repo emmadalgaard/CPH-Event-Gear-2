@@ -6,7 +6,7 @@ Dette skal laves om til, at man som gæst godt kan se produkterne, man kan bare 
 window.onload = populateCustomers();
 
 function checkLoginOrderPage() {
-    if (localStorage.getItem("phone") == null) {
+    if (JSON.parse(localStorage.getItem("customer")).phone == null) {
         window.location = "Loginpage.html";
     } else {
         window.location = "orderPage.html";
@@ -15,7 +15,7 @@ function checkLoginOrderPage() {
 /* MM: The following function has the same functionality as the function above, but with the "Profil" button instead.
  */
 function checkLoginProfilePage() {
-    if (localStorage.getItem("phone") == null) {
+    if (JSON.parse(localStorage.getItem("customer")).phone == null) {
         window.location = "Loginpage.html";
     } else {
         window.location = "profile.html";
@@ -26,12 +26,7 @@ function checkLoginProfilePage() {
 logged out by the system.
  */
 function logOut() {
-    localStorage.removeItem("customerName");
-    localStorage.removeItem("address");
-    localStorage.removeItem("city");
-    localStorage.removeItem("phone");
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
+    localStorage.removeItem("customer");
 }
 
 //Laver en funktion, der henter data fra databasen og sætter det i Local Storage, så info vises på bruger
@@ -41,13 +36,7 @@ async function populateCustomers() {
     ).json();
     customerArray.forEach((customer) => {
         // En if statement bruges til at tjekke, at det er en current user ved at sammenligne databasens phone med local storage, fordi phone er unikt for ver bruger.
-        if (customer.phone == localStorage.getItem("phone")) {
-
-            localStorage.getItem("customerName");
-            localStorage.getItem("customerAddress");
-            localStorage.getItem("customerCity");
-            localStorage.getItem("customerPhone");
-            localStorage.getItem("customerEmail");
+        if (customer.phone == JSON.parse(localStorage.getItem("customer")).phone) {
 
             document.getElementById("customerName").innerHTML = customer.customerName;
             document.getElementById("customerAddress").innerHTML = customer.address;
@@ -58,7 +47,9 @@ async function populateCustomers() {
     })
 }
 // Kalder funktionen for at få info frem
-window.onload = populateCustomers();
+window.onload = () => {
+    populateCustomers();
+}
 
 // Laver en funktion, der henter data fra databasen for order og viser det på brugerprofilen
 async function populateOrders() {
@@ -89,7 +80,7 @@ async function populateOrders() {
 
             //The innerHTML of the newly created <p> tag is set equal to a section of text and the variables above.
             //amount 1,2,3 skal checkes for, om de er tomme - hvis tomme, skal de ikke indgå af ordren
-            if (order.phone == localStorage.getItem("phone")) {
+            if (order.phone == JSON.parse(localStorage.getItem("customer")).phone) {
                 orderInfo.innerHTML =
                     `Dato for udlejning:
                     ${order.orderDay} / ${order.orderMonth} / ${order.orderYear}
@@ -132,7 +123,7 @@ async function deleteOrder() {
         await fetch("http://localhost:3000/order")
     ).json();
     orderArray.forEach((order) => {
-        if (order.phone == localStorage.getItem("phone")) {
+        if (order.phone == JSON.parse(localStorage.getItem("customer")).phone) {
             orderId=order._id
             console.log(orderId);
         }
@@ -152,57 +143,13 @@ async function deleteOrder() {
     }
 }
 
-    /*
-    var orderArray = JSON.parse(localStorage.getItem("orderArray"));
-    /*
-    MM: The following for loop cycles through all the stored orders. If the currently selected order is equal to
-    the stored order's orderId attribute, the order is removed from the order array.
-     */
-    /*for (var i = 0; i < orderArray.length; i++) {
-        if (selection.value == orderArray[i].orderId) {*/
-            /*
-            MM: The page is reloaded using the location property.
-             */
-           /// window.location = "profile.html";
-            /*
-            MM: The splice method is used to remove a section of the orderArray. It specifies that at position i, it should
-            remove 1 item.
-             */
-            //orderArray.splice(i, 1);
-            /*
-            MM: Using the JSON.stringify method, the orderArray array is saved as a string in the variable "orderArrayString".
-            The variable is saved to the key "orderArray" in local storage using the localStorage.setItem method.
-             */
-            /*var orderArrayString = JSON.stringify(orderArray);
-            localStorage.setItem("orderArray", orderArrayString);
-        }
-    }
-}
-/*
-MM: The following function prompts the user to confirm that they want to delete their order.
- */
-//Function written by Morten Dyberg
-/*function deleteOrderAlert() {
-    /*
-    MM: The window.confirm method prompts the user to either confirm or cancel the cancellation action.
-     */
-    /*var choice = window.confirm("Er du sikker på, at du vil slette din ordre?");
-    /*
-    MM: If the user confirms to delete their order, an alert appears and the deleteOrder function is called.
-     */
-    /*if (choice == true) {
-        alert("Ordren er blevet slettet");
-        deleteOrder();
-    }
-}*/
-
 // Nedenstående funktion sletter en bruger og er lavet på præcis samme måde som deleteOrder-funktionen
 async function deleteUser() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
     ).json();
     customerArray.forEach((customer) => {
-        if (customer.phone == localStorage.getItem("phone")) {
+        if (customer.phone == JSON.parse(localStorage.getItem('customer')).phone) {
             customerId=customer._id
         }
 

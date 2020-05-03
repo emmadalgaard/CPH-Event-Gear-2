@@ -24,6 +24,12 @@ const CustomerSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    /* argumenter for dette i rapporten, det ville have været smartere at implementere en userType som user.js, men fordi vi har gjort det
+    i en anden rækkefølge ved først at implementere customer og lave funktionaliteter for denne, er det her en nemmere løsning */
+    userType: {
+        type: String, enum: ["admin", "customer"],
+        required: true
     }
 });
 

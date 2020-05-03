@@ -73,7 +73,7 @@ async function register() {
     //nedenstående er lavet om, så det er objektorienteret - den henter felterne fra klassen
     //Brug samme til PUT
     if (form_valid) {
-        let c = new Customer(customerName, address, city, phone, email, password);
+        let c = new Customer(customerName, address, city, phone, email, password, "customer");
         await fetch("http://localhost:3000/customer", {
             method: 'POST',
             headers: {
@@ -122,29 +122,33 @@ If it matches, the user is sent to the front page, and the user information is s
 
 // kommentarer til denne
 async function loginVal(phone, password) {
-    let success = false;
+    let successCustomer = null;
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
     ).json();
     customerArray.forEach((customer) => {
         if (customer.phone == phone && customer.password == password) {
-            success = true;
+            successCustomer = customer;
         }
     });
-
-    if(success) {
+    // Vil evaluere til true, fordi JS gør, så et objekt, der er sat til en værdi, evaluerer til true
+    if(successCustomer) {
         console.log("You successfully logged in");
         //sætter telefonnummer i local storage for at tjekke, om en bruger er logget ind
-        localStorage.setItem("phone", phone);
+        //localStorage.setItem("phone", phone);
+        localStorage.setItem("customer", JSON.stringify(successCustomer));
 
+        if(successCustomer.userType == "admin") {
+            window.location = "Adminpage.html"
+        } else {
+            window.location = "profile.html"
+        }
 
-        //Sæt alle de andre i local storage også, så info vises på brugeren
-        window.location = "profile.html"
 
     } else {
-        console.log("Wrong login, try again");
+        alert("Wrong login, try again");
     }
-    return success;
+    return successCustomer;
 }
 
 /*function loginVal() {
@@ -173,20 +177,6 @@ async function loginVal(phone, password) {
     }*/
 
 
-//A class is created for the admin. The only properties in this class are username and password.
-class Admin {
-    constructor(username, password) {
-        this.username = username;
-        this.password = password;
-    }
-    logIn(){
-        console.log(this.username, "har lige logget ind");
-    }
-}
-//We make an instance of this class by creating an object.
-admin1 = new Admin('admin', 12345);
-
-
 /*MD:
 This function validates the login using if and else if-statements.
 It retrieves the input entered, and uses an if-statement to check whether the input matches the properties in the admin1
@@ -196,14 +186,7 @@ admin, it will call the loginVal function, which loops through the user array.
 function validate() {
     var phone = document.getElementById("phone").value;
     var password = document.getElementById("password").value;
-    if (phone == admin1.username && password == admin1.password) {
-        window.location = "adminpage.html";
-        admin1.logIn();
-    } else if (phone == admin1.username && password != admin1.password) {
-        alert("Forkert ID eller password. Prøv igen.")
-    } else if (phone != admin1.username) {
-        loginVal(phone, password);
-    }
+    loginVal(phone, password);
 }
 
 

@@ -4,8 +4,8 @@ in localStorage (here we use the 'phone' key), and checks if there are is any va
 is redirected to the login page. In addition, the function also inserts the users phone number in the navibar as text.
  */
 window.onload = function checkLoginButton() {
-    if (localStorage.getItem('phone') != null) {
-        var userPhone = localStorage.getItem('phone');
+    if (JSON.parse(localStorage.getItem('customer')).phone != null) {
+        var userPhone = JSON.parse(localStorage.getItem('customer')).phone;
         //document.getElementById('loginButton').style.display = "none";
         document.getElementById('loginPhone').style.display = "";
         document.getElementById('loginPhone').innerHTML = "Logget ind med ID: <br>" + userPhone;
@@ -18,7 +18,7 @@ window.onload = function checkLoginButton() {
 This if statement locate the user to either the loginPage or the orderPage. If the key in local storage is null they direct to loginPage else the user go to orderPage where the order can be made.
  */
 function checkLoginOrderPage() {
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         var confirmLoginOrder = window.confirm("Du skal være logget ind for at bestille en tid. Tryk OK for at logge ind.");
         if (confirmLoginOrder == true) {
             window.location = "Loginpage.html"
@@ -30,7 +30,7 @@ function checkLoginOrderPage() {
 //MK: This function has the same purpose and use the same if else statement as the one above.
 //MK: But this is for the profilePage this means that if the user of the programme is logged in it can now see information about the profile and orders.
 function checkLoginProfilePage() {
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         var confirmLoginOrder = window.confirm("Du skal være logget ind for at se din profil. Tryk OK for at logge ind.");
         if (confirmLoginOrder == true) {
             window.location = "Loginpage.html"

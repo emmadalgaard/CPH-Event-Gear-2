@@ -16,6 +16,7 @@ async function createCustomer(data) {
 async function deleteCustomer(id) {
     return await dbService.deleteById(customer, id);
 }
+
 async function updateCustomer(id, body) {
     return await dbService.findByIdAndUpdate(customer, id, body);
 }

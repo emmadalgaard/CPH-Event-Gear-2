@@ -5,11 +5,11 @@ is redirected to the login page. In addition, the function also inserts the user
  */
 //Function written by: MM
 window.onload = function checkLoginButton() {
-    //document.getElementById('loginPhone').innerHTML="Logget ind med ID: <br>" + localStorage.getItem('phone');
+    //document.getElementById('loginPhone').innerHTML="Logget ind med ID: <br>" + JSON.parse(localStorage.getItem('customer')).phone;
 
     //checks if the user is logged in and redirects to loginpage if not
     // (this is used if the user is linked directly to this page and have not logged in or registered before.)
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
     }
 }
@@ -18,7 +18,7 @@ window.onload = function checkLoginButton() {
 //This if statement locate the user to either the loginPage or the orderPage. If the key in local storage is null they direct to loginPage else the user goes to orderPage where the order can be made.
 //Function written by: MM
 function checkLoginOrderPage() {
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
     } else {
         window.location ="orderPage.html"
@@ -28,7 +28,7 @@ function checkLoginOrderPage() {
 //MK: But this is for the profilePage. This means that if the user of the programme is logged in it can now see information about the profile and orders.
 //Function written by: MM
 function checkLoginProfilePage() {
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
     } else {
         window.location ="profile.html"
@@ -146,13 +146,8 @@ async function confirmTime() {
         document.getElementById("modelContainer3").style.display = "none";
     }
 }
-//MM: The Jetski class is created. For now, only the price property is used in the code.
-class Eventpackage {
-    constructor(model, price) {
-        this.model = model;
-        this.price = price;
-    }
-}
+
+// get på eventpackage skal implementeres her
 //MM: Objects are created from the Jetski class, representing the different jetski models.
 var eventpackage1= new Eventpackage('Rund fødselsdag', 3000);
 var eventpackage2= new Eventpackage('Bryllup', 2000);
@@ -246,7 +241,7 @@ async function storeOrder() {
     var orderMonth = document.getElementById('rentMonth').value;
     var orderYear = document.getElementById('rentYear').value;
 
-    let phone = localStorage.getItem("phone");
+    let phone = JSON.parse(localStorage.getItem("customer")).phone;
     let orderId = null;
     // MK/MM: A variable is created to calculate the final price of the order.
     // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...

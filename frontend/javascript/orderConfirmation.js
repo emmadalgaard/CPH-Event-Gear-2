@@ -1,6 +1,6 @@
 window.onload = function getOrderInfo() {
     //MM: Inserts the user ID in the navibar
-    document.getElementById('loginPhone').innerHTML="Logget ind med ID: <br>" + localStorage.getItem('phone');
+    document.getElementById('loginPhone').innerHTML="Logget ind med ID: <br>" + JSON.parse(localStorage.getItem('customer')).phone;
     //MM: Creates variables that represent the order array and the length of the order array
     var orderArray = JSON.parse(localStorage.getItem('orderArray'));
     var orderAmount = JSON.parse(localStorage.getItem('orderArray')).length;
@@ -26,7 +26,7 @@ window.onload = function getOrderInfo() {
 }
 //MM: Checks if there is stored a phone value when the user pressed the order page button. If not, it sends the user to the login page
 function checkLoginOrderPage() {
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
     } else {
         window.location ="orderPage.html"
@@ -34,7 +34,7 @@ function checkLoginOrderPage() {
 }
 //MM: Checks if there is stored a phone value when the user pressed the profile button. If not, it sends the user to the login page
 function checkLoginProfilePage() {
-    if (localStorage.getItem('phone') == null) {
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
     } else {
         window.location ="profile.html"

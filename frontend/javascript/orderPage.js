@@ -148,6 +148,27 @@ async function confirmTime() {
 }
 
 // get på eventpackage skal implementeres her
+/*async function showEventpackages() {
+    console.log("is this run");
+    const eventpackageArray = await (
+        await fetch("http://localhost:3000/eventpackage")
+    ).json();
+
+    eventpackageArray.forEach((eventpackage) => {
+        console.log(eventpackage);
+
+        document.getElementById("eventpackage1Text").innerHTML = eventpackage.eventpackage1Text;
+        document.getElementById("customerAddress").innerHTML = customer.address;
+        document.getElementById("customerCity").innerHTML = customer.city;
+        document.getElementById("customerPhone").innerHTML = customer.phone;
+        document.getElementById("customerEmail").innerHTML = customer.email;
+    })
+}
+// Kalder funktionen for at få info frem
+window.onload = () => {
+    showEventpackages();
+}*/
+
 //MM: Objects are created from the Jetski class, representing the different jetski models.
 var eventpackage1= new Eventpackage('Rund fødselsdag', 3000);
 var eventpackage2= new Eventpackage('Bryllup', 2000);
@@ -195,42 +216,7 @@ function calculatePrice() {
     }
 }
 
-//MM: A class is created to represent order data.
-/*class Order {
-    constructor(phone, amount1, amount2, amount3, orderDay, orderMonth, orderYear, timePeriod, orderPrice, orderId) {
-        this.phone = phone;
-        this.amount1 = amount1;
-        this.amount2 = amount2;
-        this.amount3 = amount3;
-        this.orderDay = orderDay;
-        this.orderMonth = orderMonth;
-        this.orderYear = orderYear;
-        this.timePeriod = timePeriod;
-        this.orderPrice = orderPrice;
-        this.orderId = orderId;
-    }*/
-
-
-
-/*
-MM: If no orderArray exists in localStorage, an orderArray with predefined users is pushed to localStorage using JSON.stringify.
- */
-//Statements written by: MD
-/*var orderArray;
-if (localStorage.getItem('orderArray')==null) {
-    orderArray = [];
-    orderArray.push(new Order('45678904', '1', '1', '1', '03', '3', '2019', '10-12', '1400', "548676"));
-    orderArray.push(new Order('22340987', '2', '3', '1', '12', '7', '2020', '16-18', '2700', "383953"));
-    orderArray.push(new Order('67880322', '3', '1', '2', '24', '12', '2021', '12-14', '2600', "457364"));
-    orderArray.push(new Order('33445522', '2', '1', '3', '15', '5', '2019', '12-14', '2900', "692642"));
-    orderArray.push(new Order('73459025', '1', '3', '3', '21', '9', '2020', '10-12', '3600', "725637"));
-
-    var orderArrayString = JSON.stringify(orderArray);
-    localStorage.setItem('orderArray', orderArrayString);
-}*/
-
 //MK: This function's purpose is to store the created order in the database.
-// Dette skal laves objektorienteret
 async function storeOrder() {
     // MK:Variables are created for the amount picked of the three different types of Jetski.
     var orderAmount1JS = document.getElementById('orderAmount1').value;

@@ -217,6 +217,20 @@ HTML document. Lastly, the .appendChild method is used to append the new node (o
 }());*/
 
 
+async function choosePhoneNumber() {
+    const customerArray = await (
+        await fetch("http://localhost:3000/customer")
+    ).json();
+    for (let i = 0; i < customerArray.length; i++) {
+        let customer = new Customer();
+        customer.applyData(customerArray[i]);
+        document.getElementById("choosePhone").innerHTML = customer.phone;
+    }
+}
+
+
+
+
 /*MD:
 Purpose of the function is to show the info of a user on the admin page.
 This function contains a loop that first checks the selection value in an if statement. If the selection value matches a

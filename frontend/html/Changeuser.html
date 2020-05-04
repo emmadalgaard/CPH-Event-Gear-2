@@ -24,8 +24,9 @@
 <h3>Vælg brugerens telefonnummer for at se brugerinformation</h3>
 
 <br>
-<select id="phoneSelect">
+<select onclick="choosePhoneNumber()" id="phoneSelect">
     <option selected disabled id="optionTlf"> -Tlf- </option>
+    <option id="choosePhone"></option>
 </select>
 <button id=showinfo onclick="showInfo(), showOrder()">Vis brugeroplysninger</button>
 

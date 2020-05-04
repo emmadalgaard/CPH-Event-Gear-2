@@ -170,3 +170,20 @@ async function deleteUser() {
         logOut();
     }
 }
+
+//Funktionen kaldes så ordrer kan ses i dropdown menuen.
+window.onload= selectOrders();
+
+async function selectOrders(){
+    const orderArray = await (
+        await fetch("http://localhost:3000/order")
+    ).json();
+    orderArray.forEach((order) => {
+        if (order.phone === localStorage.getItem("phone")) {
+
+            document.getElementById("optionOrders").innerHTML= order._id;
+
+        }
+
+    })
+}

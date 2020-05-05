@@ -8,6 +8,10 @@ const EventPackageSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true
+    },
+    packageType: {
+        type: String, enum: ["pakke1", "pakke2", "pakke3"],
+        required: true
     }
     /*stock: {
         type: Boolean,

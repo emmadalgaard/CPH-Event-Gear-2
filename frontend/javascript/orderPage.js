@@ -147,70 +147,83 @@ async function confirmTime() {
     }
 }
 
-// get på eventpackage skal implementeres her
-/*async function showEventpackages() {
-    console.log("is this run");
+/* Laver en funktion, der viser eventpakkerne ved at gette fra endpointet /eventpackage.
+Bruger packageType til at skelne mellem de forskellige pakker og henter navn og pris fra databasen
+ */
+async function showEventpackages() {
     const eventpackageArray = await (
         await fetch("http://localhost:3000/eventpackage")
     ).json();
 
     eventpackageArray.forEach((eventpackage) => {
-        console.log(eventpackage);
+        if(eventpackage.packageType == "pakke1") {
+            document.getElementById("eventpackageHeadline1").innerHTML = eventpackage.name;
+            document.getElementById("pris1").innerHTML = "Pris: " + eventpackage.price + " kr.";
+        } else if(eventpackage.packageType == "pakke2") {
+            document.getElementById("eventpackageHeadline2").innerHTML = eventpackage.name;
+            document.getElementById("pris2").innerHTML = "Pris: " + eventpackage.price + " kr.";
+        } else if(eventpackage.packageType == "pakke3") {
+            document.getElementById("eventpackageHeadline3").innerHTML = eventpackage.name;
+            document.getElementById("pris3").innerHTML = "Pris: " + eventpackage.price + " kr.";
+        }
 
-        document.getElementById("eventpackage1Text").innerHTML = eventpackage.eventpackage1Text;
-        document.getElementById("customerAddress").innerHTML = customer.address;
-        document.getElementById("customerCity").innerHTML = customer.city;
-        document.getElementById("customerPhone").innerHTML = customer.phone;
-        document.getElementById("customerEmail").innerHTML = customer.email;
     })
 }
 // Kalder funktionen for at få info frem
 window.onload = () => {
     showEventpackages();
-}*/
+}
 
-//MM: Objects are created from the Jetski class, representing the different jetski models.
-var eventpackage1= new Eventpackage('Rund fødselsdag', 3000);
-var eventpackage2= new Eventpackage('Bryllup', 2000);
-var eventpackage3= new Eventpackage('Studentgilde', 4000);
-//the Object.freeze is used to make sure customers can't change the price property of the objects.
-Object.freeze(eventpackage1);
-Object.freeze(eventpackage2);
-Object.freeze(eventpackage3);
+// Definerer eventpakkerne 1, 2,3 globalt for at alle funktionerne kan tilgå dem - vi opretter dem som tomme variable, så vi kan lave instanser af klassen
+let eventpackage1 = null;
+let eventpackage2 = null;
+let eventpackage3 = null;
 
-
-/*MM: The following function is activated when the user changes the amount of jetskis in the HTML selector. It does the following:
-1. It adds up the total price of the selected jetskis and shows it in the basket.
-2. It shows the basket if the amount of jetskis is above 0.
-3. It shows the name of the jetski, the photo, and the price of the selected jetskis in the basket.
+/* Denne funktion aktivieres, når der vælges amount af en pakke
+Laver en funktion, der først gør det samme som ovenfor ved showEventpackages for at hente dem fra databasen.
  */
-//Function written by: MM
-function calculatePrice() {
-    var orderAmount1JS = document.getElementById('orderAmount1').value;
-    var orderAmount2JS = document.getElementById('orderAmount2').value;
-    var orderAmount3JS = document.getElementById('orderAmount3').value;
-    var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
+async function calculatePrice() {
+    const eventpackageArray = await (
+        await fetch("http://localhost:3000/eventpackage")
+    ).json();
+
+        eventpackageArray.forEach((eventpackage) => {
+            if(eventpackage.packageType == "pakke1") {
+                eventpackage1 = new Eventpackage(eventpackage.name, eventpackage.price, "pakke1");
+            } else if(eventpackage.packageType == "pakke2") {
+                eventpackage2 = new Eventpackage(eventpackage.name, eventpackage.price, "pakke2");
+            } else if(eventpackage.packageType == "pakke3") {
+                eventpackage3 = new Eventpackage(eventpackage.name, eventpackage.price, "pakke3");
+            }
+        });
+
+    //Gemmer værdien af orderamounts i nogle variable
+    let orderAmount1JS = document.getElementById('orderAmount1').value;
+    let orderAmount2JS = document.getElementById('orderAmount2').value;
+    let orderAmount3JS = document.getElementById('orderAmount3').value;
+
+    // Udregner den samlede pris for pakkerne
+    let finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
     document.getElementById('totalPrice').innerHTML = "Samlet Pris: " + finalPrice + " kr.";
     document.getElementById('basketDivFull').style.display = "";
 
-    //MM:Checks if all order amounts are 0, then the basket should be hidden
+    //Tjekker at hvis alle pakkeamounts er lig 0, viser den ikke kurv-vinduet
     if (orderAmount1JS == 0 && orderAmount2JS == 0 && orderAmount3JS == 0)
         document.getElementById('basketDivFull').style.display = "none";
 
-    /* MM: Checks if the order amount if above 0, and if so, it adds the jetski name, photo, price and amount to the <p> in the basket.
-    If the order amount is 0, it empties the <p> so that the element is hidden in the basket */
-    if (orderAmount1JS > 0) {
-        document.getElementById('basketEventpackage1').innerHTML = "<img style=\"width:30%; float:left; \" src=\"../images/50år.png\"> Rund Fødselsdag <br> Antal: " + orderAmount1JS + "<br> Pris: " + orderAmount1JS * eventpackage1.price + " kr.";
+    // Nedenstående tjekker om order amount er over 0, hvis ja, tilføjer den billede, navn og pris - hvis ikke, popper kurv-vinduet ikke op
+   if (orderAmount1JS > 0) {
+        document.getElementById('basketEventpackage1').innerHTML = "<img style=\"width:30%; float:left; \" src=\"../images/50år.png\">" + eventpackage1.name + "<br> Antal: " + orderAmount1JS + "<br> Pris: " + orderAmount1JS * eventpackage1.price + " kr.";
     } else {
         document.getElementById('basketEventpackage1').innerHTML = "";
     }
     if (orderAmount2JS > 0) {
-        document.getElementById('basketEventpackage2').innerHTML = "<br><img style=\"width:30%; float:left; \" src=\"../images/Bryllup.png\"> Bryllup VX <br> Antal: " + orderAmount2JS + "<br> Pris: " + orderAmount2JS * eventpackage2.price + " kr.";
+        document.getElementById('basketEventpackage2').innerHTML = "<br> <img style=\"width:30%; float:left; \" src=\"../images/Bryllup.png\">" + eventpackage2.name + "<br> Antal: " + orderAmount2JS + "<br> Pris: " + orderAmount2JS * eventpackage2.price + " kr.";
     } else {
         document.getElementById('basketEventpackage2').innerHTML = "";
     }
     if (orderAmount3JS > 0) {
-        document.getElementById('basketEventpackage3').innerHTML = "<br><img style=\"width:30%; float:left; \" src=\"../images/Studentergilde.png\"> Studentergilde <br> Antal: " + orderAmount3JS + "<br> Pris: " + orderAmount3JS * eventpackage3.price + " kr.";
+        document.getElementById('basketEventpackage3').innerHTML = "<br> <img style=\"width:30%; float:left; \" src=\"../images/Studentergilde.png\">" + eventpackage3.name + "<br> Antal: " + orderAmount3JS + "<br> Pris: " + orderAmount3JS * eventpackage3.price + " kr.";
     } else {
         document.getElementById('basketEventpackage3').innerHTML = "";
     }

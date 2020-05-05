@@ -17,13 +17,7 @@ window.onload = function checkLoginButton() {
 //This function uses the same if statement as the function above but here it is an if else statement. The difference is mainly that this function is activated when a button is clicked.
 //This if statement locate the user to either the loginPage or the orderPage. If the key in local storage is null they direct to loginPage else the user goes to orderPage where the order can be made.
 //Function written by: MM
-function checkLoginOrderPage() {
-    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
-        window.location = "Loginpage.html"
-    } else {
-        window.location ="orderPage.html"
-    }
-}
+
 //MK: This function has the same purpose and uses the same if else statement as the one above.
 //MK: But this is for the profilePage. This means that if the user of the programme is logged in it can now see information about the profile and orders.
 //Function written by: MM
@@ -246,37 +240,41 @@ async function calculatePrice() {
 
 //MK: This function's purpose is to store the created order in the database.
 async function storeOrder() {
-    // MK:Variables are created for the amount picked of the three different types of Jetski.
-    var orderAmount1JS = document.getElementById('orderAmount1').value;
-    var orderAmount2JS = document.getElementById('orderAmount2').value;
-    var orderAmount3JS = document.getElementById('orderAmount3').value;
-    // Variables are created for day, month and year.
-    var orderDay = document.getElementById('rentDay').value;
-    var orderMonth = document.getElementById('rentMonth').value;
-    var orderYear = document.getElementById('rentYear').value;
+    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
+        alert("Du er ikke logget ind");
+        window.location = "Loginpage.html"
+    } else {
+        // MK:Variables are created for the amount picked of the three different types of Jetski.
+        var orderAmount1JS = document.getElementById('orderAmount1').value;
+        var orderAmount2JS = document.getElementById('orderAmount2').value;
+        var orderAmount3JS = document.getElementById('orderAmount3').value;
+        // Variables are created for day, month and year.
+        var orderDay = document.getElementById('rentDay').value;
+        var orderMonth = document.getElementById('rentMonth').value;
+        var orderYear = document.getElementById('rentYear').value;
 
-    let phone = JSON.parse(localStorage.getItem("customer")).phone;
-    let orderId = null;
-    // MK/MM: A variable is created to calculate the final price of the order.
-    // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
-    var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
+        let phone = JSON.parse(localStorage.getItem("customer")).phone;
+        let orderId = null;
+        // MK/MM: A variable is created to calculate the final price of the order.
+        // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
+        var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
 
-    let o = new Order(orderId, phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);
-    console.log(o)
-    await fetch("http://localhost:3000/order", {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(o)
+        let o = new Order(orderId, phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);
+        console.log(o)
+        await fetch("http://localhost:3000/order", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(o)
         })
 
-    alert("Din ordre er modtaget");
-    window.location = "profile.html";
+        alert("Din ordre er modtaget");
+        window.location = "profile.html";
+    }
+
 }
-
-
 
 
 

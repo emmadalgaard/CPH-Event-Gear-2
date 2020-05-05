@@ -14,7 +14,7 @@
         <h1 id="headTitle">CPH Event Gear </h1>
     </div>
     <a href="index.html"><button id="buttonStyle"> Forside </button></a> <!-- html elementers id skal ALTID være unikt -->
-    <button onClick="checkLoginOrderPage(), checkAdminStatus()" style="border-right-width: 0; border-left-width: 0" id="buttonStyle"> Produkter </button>
+    <button onClick="location.href='orderPage.html',checkAdminStatus()" style="border-right-width: 0; border-left-width: 0" id="buttonStyle"> Produkter </button>
     <button onClick="checkLoginProfilePage(), checkAdminStatus()" id="buttonStyle"> Profil </button>
     <!-- Login button will only be shown if the localStorage is empty -->
     <a id="loginButton" style="display:;" href="Loginpage.html"><button style="position: absolute; right:0px;" id="buttonStyle"> Log-Ind </button> </a>
@@ -54,7 +54,7 @@
                 <li> Bestil din festpakke allerede i dag </li>
             </ul>
             <br><br>-->
-            <p style="text-align: center;"><button onclick="checkLoginOrderPage()" id="frontButton"> SE VORES UDVALG </button></p>
+            <p style="text-align: center;"><button onclick="location.href='orderPage.html'" id="frontButton"> SE VORES UDVALG </button></p>
             </p>
         </div>
     </div>

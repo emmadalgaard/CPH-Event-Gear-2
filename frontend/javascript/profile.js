@@ -174,16 +174,24 @@ async function deleteUser() {
 //Funktionen kaldes så ordrer kan ses i dropdown menuen.
 window.onload= selectOrders();
 
-async function selectOrders(){
+async function selectOrders() {
     const orderArray = await (
         await fetch("http://localhost:3000/order")
     ).json();
+
+    var select = document.getElementById("orderSelect");
+
     orderArray.forEach((order) => {
-        if (order.phone === localStorage.getItem("phone")) {
+        if (order.phone == localStorage.getItem("phone")){
+            var option = order._id;
+            var el = document.createElement("option");
 
-            document.getElementById("optionOrders").innerHTML= order._id;
-
+            el.textContent = option;
+            el.value = option;
+            //Fejlen er ifølge consollen på linje 192, men jeg kan ikke rigtig regne den ud.
+            select.appendChild(el);
         }
 
     })
 }
+

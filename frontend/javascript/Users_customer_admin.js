@@ -217,24 +217,75 @@ HTML document. Lastly, the .appendChild method is used to append the new node (o
 }());*/
 
 
-
+window.onload = choosePhoneNumber();
 
 async function choosePhoneNumber() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
     ).json();
+    var select = document.getElementById("phoneSelect");
+    customerArray.forEach((customer) => {
+        var option = customer.phone;
+        var el = document.createElement("option");
+        el.textContent = option;
+        el.value = option;
+        select.appendChild(el)
+    })
+}
+async function showInfo() {
+    const customerArray = await (
+        await fetch("http://localhost:3000/customer")
+    ).json();
+    var select = document.getElementById("phoneSelect");
     for (let i = 0; i < customerArray.length; i++) {
-        let customer = new Customer();
-        customer.applyData(customerArray[i]);
-        document.getElementById("choosePhone").innerHTML = customer.phone;
+        if (select.value == customerArray[i].phone) {
+            document.getElementById('customerName').innerHTML = customerArray[i].customerName;
+            document.getElementById('customerAddress').innerHTML = customerArray[i].address;
+            document.getElementById('customerCity').innerHTML = customerArray[i].city;
+            document.getElementById('customerPhone').innerHTML = customerArray[i].phone;
+            document.getElementById('customerEmail').innerHTML = customerArray[i].email;
+        }
     }
 }
 
-function checkAdminStatus() {
+async function showOrder() {
+    const orderArray = await (
+        await fetch("http://localhost:3000/order")
+    ).json();
+    var select = document.getElementById("phoneSelect");
+    for (let i = 0; i < orderArray.length; i++) {
+        if (select.value == orderArray[i].phone) {
+
+            var orderInfo = document.createElement("P");
+            var rundFodselsdag = "Rund fødselsdag:";
+            var bryllup = "Bryllup:";
+            var studentergilde = "Studentergilde:"
+
+            orderInfo.innerHTML =
+                `Dato for udlejning:
+                ${orderArray[i].orderDay} / ${orderArray[i].orderMonth} / ${orderArray[i].orderYear}
+                <br> <br> 
+                ${orderArray[i].amount1 ? rundFodselsdag + orderArray[i].amount1 + "<br>" : ""}
+                ${orderArray[i].amount2 ? bryllup + orderArray[i].amount2 + "<br>" : ""}
+                ${orderArray[i].amount3 ? studentergilde + orderArray[i].amount3 + "<br>" : ""}
+                <br>
+                Samlet pris til betaling ved udlejning: ${orderArray[i].orderPrice}<br><br>
+                Ordre ID: ${orderArray[i]._id}
+                <hr>`
+
+            document.getElementById('orderDetails').appendChild(orderInfo);
+            document.getElementById('noOrders').innerHTML = "";
+        } else if (select.value !== orderArray[i].phone) {
+            document.getElementById('orderDetails').innerHTML = "";
+        }
+    }
+}
+// nedenstående virker ikke
+/* function checkAdminStatus() {
     if (JSON.parse(localStorage.getItem("customer")).userType == "admin") {
         window.location = "Adminpage.html"
     }
-}
+} */
 
 
 
@@ -246,7 +297,7 @@ phone number from userArray then the function shows the rest of the information 
 .innerHTML method to manipulate the HTML document.
 */
 //Function written by Markus Kronborg
-function showInfo () {
+/* function showInfo () {
     var userArray = JSON.parse(localStorage.getItem('userArray'));
     for (let i = 0; i < userArray.length; i++) {
         if (selection.value == userArray[i].phone) {
@@ -257,14 +308,14 @@ function showInfo () {
             document.getElementById('customerEmail').innerHTML = userArray[i].email;
         }
     }
-}
+} */
 
 /*MD:
 This function shows the order of the specific customer selected in the select field. Same procedure as the showInfo
 function, but this function can also dynamically show any new orders by using document.createElement.
  */
 //Function originally written by Markus Kronborg and changed completely by Morten Dyberg
-function showOrder() {
+/* function showOrder() {
     var orderArray = JSON.parse(localStorage.getItem('orderArray'));
     for (let i = 0; i < orderArray.length; i++) {
             if (selection.value == orderArray[i].phone) {
@@ -279,7 +330,6 @@ function showOrder() {
                 var orderID = orderArray[i].orderId;
 
 
-
                 var orderInfo = document.createElement("P");
                 orderInfo.innerHTML = "Dato for udlejning: " + day + "/" + month + "/" + year + "</br></br>" + "Tidspunkt for udlejning: kl." + timePeriod + "</br></br>" + "Rund fødselsdag: " + amount1 + "</br></br>" + "Bryllup: " + amount2 + "</br></br>" + "Studentergilde: " + amount3 + "</br></br>" + "Samlet pris til betaling ved udlejning: " + orderPrice + "</br></br> Ordre ID: " + orderID + "<br><br>";
 
@@ -287,6 +337,4 @@ function showOrder() {
                 document.getElementById('noOrders').innerHTML = "";
             }
     }
-}
-
-
+} */

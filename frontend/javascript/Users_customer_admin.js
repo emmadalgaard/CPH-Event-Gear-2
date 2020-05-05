@@ -233,7 +233,6 @@ async function choosePhoneNumber() {
 function checkAdminStatus() {
     if (JSON.parse(localStorage.getItem("customer")).userType == "admin") {
         window.location = "Adminpage.html"
-        console.log("hej")
     }
 }
 

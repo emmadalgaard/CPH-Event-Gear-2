@@ -217,6 +217,8 @@ HTML document. Lastly, the .appendChild method is used to append the new node (o
 }());*/
 
 
+
+
 async function choosePhoneNumber() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
@@ -225,6 +227,13 @@ async function choosePhoneNumber() {
         let customer = new Customer();
         customer.applyData(customerArray[i]);
         document.getElementById("choosePhone").innerHTML = customer.phone;
+    }
+}
+
+function checkAdminStatus() {
+    if (JSON.parse(localStorage.getItem("customer")).userType == "admin") {
+        window.location = "Adminpage.html"
+        console.log("hej")
     }
 }
 

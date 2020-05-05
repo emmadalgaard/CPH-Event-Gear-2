@@ -27,6 +27,7 @@ logged out by the system.
  */
 function logOut() {
     localStorage.removeItem("customer");
+    window.location = "index.html";
 }
 
 //Laver en funktion, der henter data fra databasen og sætter det i Local Storage, så info vises på bruger

@@ -146,6 +146,21 @@ async function confirmTime() {
         document.getElementById("modelContainer3").style.display = "none";
     }
 }
+//post eventpackages op ind i databasen, når serveren startes
+/*async function postEventpackage() {
+    let e = new Eventpackage(eventpackage.name = "Rund fødselsdag", eventpackage.price = 3000, eventpackage.packageType = "pakke1");
+    await fetch("http://localhost:3000/eventpackage", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(e)
+    });
+}
+postEventpackage();*/
+
 
 /* Laver en funktion, der viser eventpakkerne ved at gette fra endpointet /eventpackage.
 Bruger packageType til at skelne mellem de forskellige pakker og henter navn og pris fra databasen

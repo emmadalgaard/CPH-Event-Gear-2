@@ -75,7 +75,25 @@ body{
     cursor: pointer;
 }
 
-#eventpackageHeadline {
+#eventpackageHeadline1 {
+    position: absolute;
+    top:-15px;
+    left: 150px;
+    font-family: modernSansLight;
+    font-size: 30px;
+    color: ghostwhite;
+}
+
+#eventpackageHeadline2 {
+    position: absolute;
+    top:-15px;
+    left: 150px;
+    font-family: modernSansLight;
+    font-size: 30px;
+    color: ghostwhite;
+}
+
+#eventpackageHeadline3 {
     position: absolute;
     top:-15px;
     left: 150px;

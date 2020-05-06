@@ -114,6 +114,6 @@ async function updatePrice() {
             }
         }
     else {
-        alert ("Cawe")
+        alert ("noget gik galt");
     }
 }

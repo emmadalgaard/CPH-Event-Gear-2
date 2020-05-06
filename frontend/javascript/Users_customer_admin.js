@@ -248,7 +248,7 @@ async function showInfo() {
     }
 }
 
-async function showOrder() {
+/*async function showOrder() {
     const orderArray = await (
         await fetch("http://localhost:3000/order")
     ).json();
@@ -272,14 +272,14 @@ async function showOrder() {
                 Samlet pris til betaling ved udlejning: ${orderArray[i].orderPrice}<br><br>
                 Ordre ID: ${orderArray[i]._id}
                 <hr>`
-
+console.log(orderInfo);
             document.getElementById('orderDetails').appendChild(orderInfo);
             document.getElementById('noOrders').innerHTML = "";
-        } else if (select.value !== orderArray[i].phone) {
-            document.getElementById('orderDetails').innerHTML = "";
+        //} else if (select.value !== orderArray[i].phone) {
+           // document.getElementById('orderDetails').innerHTML = "";
         }
     }
-}
+}*/
 // nedenstående virker ikke
 /* function checkAdminStatus() {
     if (JSON.parse(localStorage.getItem("customer")).userType == "admin") {

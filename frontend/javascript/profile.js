@@ -115,8 +115,10 @@ The "option" variable is set equal to the options of the "selection" variable.
 var selection = document.getElementById("orderId");
 
 
-
-// Nedenstående funktion sletter en bruger og er lavet på præcis samme måde som deleteOrder-funktionen
+/*Nedenstående funktion sletter en bruger fra databasen ved at gå alle objekter igennem i customer arrayet'et i databasen
+og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så den finder current user
+deleteUser() kører, når der klikkes på knappen "slet bruger", som er sat op i profile.html
+hvis der trykkes ja til sletning af ordren, vil metoden DELETE kører og fetche endpointet /delete/order/Id */
 async function deleteUser() {
     const customerArray = await (
         await fetch("http://localhost:3000/customer")

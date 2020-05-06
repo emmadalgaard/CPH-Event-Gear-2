@@ -3,13 +3,11 @@ let currentCustomer_ID = ""; //global variabel som benyttes til at gemme _id for
 
 //Laver en funktion, der henter data fra databasen og sætter det i Local Storage, så info vises på bruger
 async function editUser() {
-   // JSON.parse(localStorage.getItem("customer")
-    //window.location = "EditCustomerProfile.html";
     const customerArray = await (
         await fetch("http://localhost:3000/customer")
     ).json();
     customerArray.forEach((customer) => {
-        // En if statement bruges til at tjekke, at det er en current user ved at sammenligne databasens phone med local storage, fordi phone er unikt for ver bruger.
+        // Et if statement bruges til at tjekke, at det er en current user ved at sammenligne databasens phone med local storage, fordi phone er unikt for ver bruger.
         if (customer.phone == JSON.parse(localStorage.getItem("customer")).phone) {
 
             document.getElementById("customerName").value = customer.customerName;

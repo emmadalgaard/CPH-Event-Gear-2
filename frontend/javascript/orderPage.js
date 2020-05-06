@@ -1,9 +1,8 @@
-/*MK/MM:
+/*
 This function check if the user is logged in. localStorage.getItem takes the information from the chosen key saved
 in localStorage (here we use the 'phone' key), and checks if there are is any value saved to the key. If not, the user
 is redirected to the login page. In addition, the function also inserts the users phone number in the navibar as text.
  */
-//Function written by: MM
 window.onload = function checkLoginButton() {
     //document.getElementById('loginPhone').innerHTML="Logget ind med ID: <br>" + JSON.parse(localStorage.getItem('customer')).phone;
 
@@ -13,14 +12,14 @@ window.onload = function checkLoginButton() {
         window.location = "Loginpage.html"
     }
 }
-//MK: The purpose of this function is to make sure that the user of the website cannot enter the orderPage if the user is not logged in.
+//The purpose of this function is to make sure that the user of the website cannot enter the orderPage if the user is not logged in.
 //This function uses the same if statement as the function above but here it is an if else statement. The difference is mainly that this function is activated when a button is clicked.
 //This if statement locate the user to either the loginPage or the orderPage. If the key in local storage is null they direct to loginPage else the user goes to orderPage where the order can be made.
-//Function written by: MM
 
-//MK: This function has the same purpose and uses the same if else statement as the one above.
-//MK: But this is for the profilePage. This means that if the user of the programme is logged in it can now see information about the profile and orders.
-//Function written by: MM
+
+//This function has the same purpose and uses the same if else statement as the one above.
+//But this is for the profilePage. This means that if the user of the programme is logged in it can now see information about the profile and orders.
+
 function checkLoginProfilePage() {
     if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
@@ -28,14 +27,13 @@ function checkLoginProfilePage() {
         window.location ="profile.html"
     }
 }
-/*MM/MK: The following function is activated by the confirm time button. It has the following purposes:
+/*The following function is activated by the confirm time button. It has the following purposes:
 1. It checks if the date/time values have been filled out, and displays an error if not.
 2. It checks if there already are reservations for the given time/date, and adjusts the amount of jetskis shown.
  */
-//Function written by: MM
+
 async function confirmTime() {
-    /* MK/MM Creating variables that represent the user selection of date and time we assign the variable to the different elementID's from our HTML
-    */
+    //Creating variables that represent the user selection of date and time we assign the variable to the different elementID's from our HTML
     var rentDayID = document.getElementById("rentDay");
     var rentDayValue = rentDayID.options[rentDayID.selectedIndex].value;
     var rentMonthID = document.getElementById("rentMonth");
@@ -44,8 +42,8 @@ async function confirmTime() {
     var rentYearValue = rentYearID.options[rentYearID.selectedIndex].value;
 
 
-    //MM: Tests if the variables set before are equal to 00 (haven't been set).
-    //MM: If the variables have been set, it changes the display property from "none" to "", showing all the jetski models
+    //Tests if the variables set before are equal to 00 (haven't been set).
+    //If the variables have been set, it changes the display property from "none" to "", showing all the jetski models
     //and all the jetski amounts.
     if (rentDayValue != "00" && rentMonthValue != "00" && rentYearValue != "00") {
         document.getElementById("modelContainer1").style.display = '';
@@ -57,31 +55,29 @@ async function confirmTime() {
         document.getElementById('eventpackage2Amount2').style.display = '';
         document.getElementById('eventpackage3Amount3').style.display = '';
         document.getElementById('eventpackage3Amount2').style.display = '';
-    } else { //MM: If the user has not filled out alle the date/time fields, an error is shown:
+    } else { //If the user has not filled out alle the date/time fields, an error is shown:
         alert("Udfyld venligst alle felter.");
     }
-    /*
-       MM:
-       Two variables are created. The variable "orderAmount" is set equal to the length of the array "orderArray" that is saved in local storage.
-        */
+
+    //Two variables are created. The variable "orderAmount" is set equal to the length of the array "orderArray" that is saved in local storage.
+
     const orderArray = await (
         await fetch("http://localhost:3000/order")
     ).json();
 
     var orderAmount = orderArray.length;
-    //var orderArray = JSON.parse(localStorage.getItem('orderArray'));
-    //MK: Three new variables are created for occupiedAmount1/2/3 which refers to the jetskis. They are defined using number 0 because they as a standard are not rented.
+    //Three new variables are created for occupiedAmount1/2/3 which refers to the jetskis. They are defined using number 0 because they as a standard are not rented.
     var occupiedAmount1 = 0;
     var occupiedAmount2 = 0;
     var occupiedAmount3 = 0;
 
-    /*MK/MM: A loop is created to cycle through all registered order and count the occupied jetskis for the selected period.
+    /*A loop is created to cycle through all registered order and count the occupied jetskis for the selected period.
     The purpose of this loop is that only available jetskis are shown, and that jetskis that are already reserved are hidden.
     The loop uses the orderAmount and the orderArray variables.
      */
     for (var i = 0; i < orderAmount; i++) {
         if (rentDayValue == orderArray[i].orderDay && rentMonthValue == orderArray[i].orderMonth && rentYearValue == orderArray[i].orderYear) {
-            //MM:Counts the amount of jetski1 reserved and adds to the var
+            //Counts the amount of jetski1 reserved and adds to the var
             if (orderArray[i].amount1 == 1) {
                 occupiedAmount1++;
             } else if (orderArray[i].amount1 == 2) {
@@ -89,7 +85,7 @@ async function confirmTime() {
             } else if (orderArray[i].amount1 == 3) {
                 occupiedAmount1+=3;
             }
-            //MM:Counts the amount of jetski2 reserved and adds to the var
+            //Counts the amount of jetski2 reserved and adds to the var
             if (orderArray[i].amount2 == 1) {
 
                 occupiedAmount2++;
@@ -98,7 +94,7 @@ async function confirmTime() {
             } else if (orderArray[i].amount2 == 3) {
                 occupiedAmount2+=3;
             }
-            //MM:Counts the amount of jetski3 reserved and adds to the var
+            //Counts the amount of jetski3 reserved and adds to the var
             if (orderArray[i].amount3 == 1) {
                 occupiedAmount3++;
             } else if (orderArray[i].amount3 == 2) {
@@ -109,51 +105,38 @@ async function confirmTime() {
         }
     }
 
-    //MK: This if statement corrects the amount of jetski 1 if there are any reserved
+    //This if statement corrects the amount of jetski 1 if there are any reserved
     if (occupiedAmount1 == 1) {
         document.getElementById('eventpackage1Amount3').style.display = "none";
     } else if (occupiedAmount1 == 2) {
         document.getElementById('eventpackage1Amount3').style.display = "none";
         document.getElementById('eventpackage1Amount2').style.display = "none";
-        //MM:The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
+        //The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount1 >= 3) {
         document.getElementById("modelContainer1").style.display = "none";
     }
-    //MK: This if statement corrects the amount of jetski 2 if there are any reserved
+    //This if statement corrects the amount of jetski 2 if there are any reserved
     if (occupiedAmount2 == 1) {
         document.getElementById('eventpackage2Amount3').style.display = "none";
     } else if (occupiedAmount2== 2) {
         document.getElementById('eventpackage2Amount3').style.display = "none";
         document.getElementById('eventpackage2Amount2').style.display = "none";
-        //MM:The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
+        //The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount2 >= 3) {
         document.getElementById("modelContainer2").style.display = "none";
     }
-    //MK: This if statement corrects the amount of jetski 3 if there are any reserved
+    //This if statement corrects the amount of jetski 3 if there are any reserved
     if (occupiedAmount3 == 1) {
         document.getElementById('eventpackage3Amount3').style.display = "none";
     } else if (occupiedAmount3 == 2) {
         document.getElementById('eventpackage3Amount3').style.display = "none";
         document.getElementById('eventpackage3Amount2').style.display = "none";
-        //MM: The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
+        //The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount3 >= 3) {
         document.getElementById("modelContainer3").style.display = "none";
     }
 }
-//post eventpackages op ind i databasen, når serveren startes
-/*async function postEventpackage() {
-    let e = new Eventpackage(eventpackage.name = "Rund fødselsdag", eventpackage.price = 3000, eventpackage.packageType = "pakke1");
-    await fetch("http://localhost:3000/eventpackage", {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
 
-        body: JSON.stringify(e)
-    });
-}
-postEventpackage();*/
 
 
 /* Laver en funktion, der viser eventpakkerne ved at gette fra endpointet /eventpackage.
@@ -188,7 +171,7 @@ let eventpackage1 = null;
 let eventpackage2 = null;
 let eventpackage3 = null;
 
-/* Denne funktion aktivieres, når der vælges amount af en pakke
+/* Denne funktion aktiveres, når der vælges amount af en pakke
 Laver en funktion, der først gør det samme som ovenfor ved showEventpackages for at hente dem fra databasen.
  */
 async function calculatePrice() {
@@ -238,13 +221,13 @@ async function calculatePrice() {
     }
 }
 
-//MK: This function's purpose is to store the created order in the database.
+//This function's purpose is to store the created order in the database.
 async function storeOrder() {
     if (JSON.parse(localStorage.getItem('customer')) == null) {
         alert("Du er ikke logget ind");
         window.location = "Loginpage.html"
     } else {
-        // MK:Variables are created for the amount picked of the three different types of Jetski.
+        // Variables are created for the amount picked of the three different types of Jetski.
         var orderAmount1JS = document.getElementById('orderAmount1').value;
         var orderAmount2JS = document.getElementById('orderAmount2').value;
         var orderAmount3JS = document.getElementById('orderAmount3').value;
@@ -255,8 +238,8 @@ async function storeOrder() {
 
         let phone = JSON.parse(localStorage.getItem("customer")).phone;
         let orderId = null;
-        // MK/MM: A variable is created to calculate the final price of the order.
-        // MK: Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
+        // A variable is created to calculate the final price of the order.
+        // Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
         var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
 
         let o = new Order(orderId, phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);

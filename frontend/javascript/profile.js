@@ -1,4 +1,4 @@
-/* MM: The following function uses an if statement with the condition that the phone key in local storage has to equal null.
+/*The following function uses an if statement with the condition that the phone key in local storage has to equal null.
 If the condition is true, it sends the user to the login page, as the user is not logged in. If not, it allows the user to access the order page.
 The function is activated by the onclick attribute specified on the "Bestil tid" button HTML tag.
 Dette skal laves om til, at man som gæst godt kan se produkterne, man kan bare ikke tilføje dem til en ordre.
@@ -12,7 +12,7 @@ function checkLoginOrderPage() {
         window.location = "orderPage.html";
     }
 }
-/* MM: The following function has the same functionality as the function above, but with the "Profil" button instead.
+/* The following function has the same functionality as the function above, but with the "Profil" button instead.
  */
 function checkLoginProfilePage() {
     if (JSON.parse(localStorage.getItem("customer")).phone == null) {
@@ -22,7 +22,7 @@ function checkLoginProfilePage() {
     }
 }
 
-/* MM: The logOut function removes the specified keys from the local storage. By removing the keys, the user is seen as
+/* The logOut function removes the specified keys from the local storage. By removing the keys, the user is seen as
 logged out by the system.
  */
 function logOut() {
@@ -109,7 +109,7 @@ populateOrders();
 
 
 /*
-MM: Two variables are created. The "selection" variable is set equal to the HTML select tag with the ID "orderID".
+Two variables are created. The "selection" variable is set equal to the HTML select tag with the ID "orderID".
 The "option" variable is set equal to the options of the "selection" variable.
  */
 var selection = document.getElementById("orderId");

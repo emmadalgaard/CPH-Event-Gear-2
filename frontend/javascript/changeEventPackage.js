@@ -3,22 +3,11 @@ window.onload = changeEventPackage();
 let eventPackageArray = null
 
 async function changeEventPackage() {
-    // JSON.parse(localStorage.getItem("customer")
-    //window.location = "EditCustomerProfile.html";
     eventPackageArray = await (
         await fetch("http://localhost:3000/eventpackage")
     ).json();
 
 
-    /*var select = document.getElementById("selectNumber");
-    var options = ["1", "2", "3", "4", "5"];
-    for(var i = 0; i < options.length; i++) {
-        var opt = options[i];
-        var el = document.createElement("option");
-        el.textContent = opt;
-        el.value = opt;
-        select.appendChild(el);
-    }*/
     var select = document.getElementById("selectNumber");
     eventPackageArray.forEach((package) => {
         var option = package.name;
@@ -32,23 +21,6 @@ async function changeEventPackage() {
 
 
 
-/*
-    eventPackageArray.forEach((package) => {
-        // En if statement bruges til at tjekke, at det er en current user ved at sammenligne databasens phone med local storage, fordi phone er unikt for ver bruger.
-        if (package.phone == JSON.parse(localStorage.getItem("customer")).phone) {
-
-            document.getElementById("customerName").value = customer.customerName;
-            document.getElementById("address").value = customer.address;
-            document.getElementById("city").value = customer.city;
-            document.getElementById("phone").value = customer.phone;
-            document.getElementById("email").value = customer.email;
-            document.getElementById("password").value = customer.password;
-            document.getElementById("confirmPassword").value = customer.password;
-
-
-        }
-    })
-*/
 
 }
 
@@ -58,7 +30,6 @@ async function showEventPrice() {
     ).json();
     var e = document.getElementById("selectNumber");
     var value = e.options[e.selectedIndex].value;
-   // var text = e.options[e.selectedIndex].text;
     eventPackageArray.forEach((package) => {
         if  (package.name == value) {
             document.getElementById("eventPrice").value = package.price
@@ -108,9 +79,7 @@ async function updatePrice() {
                     },
                     body: JSON.stringify(c)
                 });
-               // localStorage.setItem("customer", JSON.stringify(c));
                 alert("Prisen er nu ændret");
-               // window.location = "profile.html";
             }
         }
     else {

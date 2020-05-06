@@ -4,13 +4,22 @@
     <meta charset="UTF-8">
     <title>Change Event Packages</title>
     <script src="../javascript/changeEventPackage.js"></script>
+    <script src="../javascript/models/Eventpackage.js"></script>
 </head>
 <body>
 
 
-<select id="selectNumber">
+<select id="selectNumber" onchange="showEventPrice()">
     <option>Choose a package</option>
 </select>
+<br/>
+<br/>
+<br/>
+<input id="eventPrice" type="text" placeholder="Price" value=""/>
+<br/>
+<br/>
+<br/>
+<button id="updateEventPrice" type="button" onclick="updatePrice()">Update price</button>
 
 <!--<div class="registerForm">
     <div class="form">

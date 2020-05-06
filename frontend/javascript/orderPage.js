@@ -240,7 +240,7 @@ async function calculatePrice() {
 
 //MK: This function's purpose is to store the created order in the database.
 async function storeOrder() {
-    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
+    if (JSON.parse(localStorage.getItem('customer')) == null) {
         alert("Du er ikke logget ind");
         window.location = "Loginpage.html"
     } else {

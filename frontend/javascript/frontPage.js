@@ -4,7 +4,7 @@ in localStorage (here we use the 'phone' key), and checks if there are is any va
 is redirected to the login page. In addition, the function also inserts the users phone number in the navibar as text.
  */
 window.onload = function checkLoginButton() {
-    if (JSON.parse(localStorage.getItem('customer')).phone != null) {
+    if (JSON.parse(localStorage.getItem('customer')) != null) {
         var userPhone = (JSON.parse(localStorage.getItem('customer')).phone);
         //document.getElementById('loginButton').style.display = "none";
         document.getElementById('loginPhone').style.display = "";

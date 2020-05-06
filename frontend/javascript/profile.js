@@ -155,7 +155,7 @@ async function selectOrders() {
     var select = document.getElementById("orderSelect");
 
     orderArray.forEach((order) => {
-        if (order.phone == localStorage.getItem("phone")) {
+        if (order.phone == JSON.parse(localStorage.getItem("customer")).phone) {
             var option = order._id;
             var el = document.createElement("option");
 

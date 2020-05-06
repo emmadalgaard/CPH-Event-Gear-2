@@ -109,7 +109,7 @@ async function updatePrice() {
                     body: JSON.stringify(c)
                 });
                // localStorage.setItem("customer", JSON.stringify(c));
-                alert("Din brugeroplysninger er nu opdateret");
+                alert("Prisen er nu ændret");
                // window.location = "profile.html";
             }
         }

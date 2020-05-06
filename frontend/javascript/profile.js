@@ -114,34 +114,7 @@ The "option" variable is set equal to the options of the "selection" variable.
  */
 var selection = document.getElementById("orderId");
 
-/*Nedenstående funktion sletter en ordre fra databasen ved at gå alle objekter igennem i order arrayet'et i databasen
-og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så den finder current user
-deleteOrder() kører, når der klikkes på knappen "anuller bestilling", som er sat op i profile.html
-hvis der trykkes ja til sletning af ordren, vil metoden DELETE kører og fetche endpointet /delete/order/Id */
-async function deleteOrder() {
-    const orderArray = await (
-        await fetch("http://localhost:3000/order")
-    ).json();
-    orderArray.forEach((order) => {
-        if (order.phone == JSON.parse(localStorage.getItem("customer")).phone) {
-            orderId=order._id
-            console.log(orderId);
-        }
-    });
-    var choice = window.confirm(
-        "Er du sikker på, at du vil slette din ordre?");
-    if (choice == true) {
-        //Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
-        fetch("http://localhost:3000/order/delete/" + orderId, {
-            method: "DELETE",
-        })
-            .then(res => res.text()) // or res.json()
-            .then(res => console.log(res));
 
-        alert("Din ordre er blevet slettet");
-        window.location = "profile.html";
-    }
-}
 
 // Nedenstående funktion sletter en bruger og er lavet på præcis samme måde som deleteOrder-funktionen
 async function deleteUser() {
@@ -182,16 +155,68 @@ async function selectOrders() {
     var select = document.getElementById("orderSelect");
 
     orderArray.forEach((order) => {
-        if (order.phone == localStorage.getItem("phone")){
+        if (order.phone == localStorage.getItem("phone")) {
             var option = order._id;
             var el = document.createElement("option");
 
             el.textContent = option;
             el.value = option;
-            //Fejlen er ifølge consollen på linje 192, men jeg kan ikke rigtig regne den ud.
             select.appendChild(el);
         }
-
     })
 }
 
+async function deleteOrder() {
+    const orderArray = await (
+        await fetch("http://localhost:3000/order")
+    ).json();
+    var select = document.getElementById("orderSelect");
+    for (let i = 0; i < orderArray.length; i++) {
+        if (select.value == orderArray[i]._id) {
+            console.log("hello");
+            var choice = window.confirm("Er du sikker på, at du vil slette din ordre?");
+            if (choice == true) {
+                //Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
+                fetch("http://localhost:3000/order/delete/" + orderArray[i]._id, {
+                    method: "DELETE",
+                })
+                    .then(res => res.text()) // or res.json()
+                    .then(res => console.log(res));
+
+                alert("Din ordre er blevet slettet");
+                window.location = "profile.html";
+            }
+        }
+    }
+}
+
+
+
+/*Nedenstående funktion sletter en ordre fra databasen ved at gå alle objekter igennem i order arrayet'et i databasen
+og derefter finder telefonnummeret fra databasen som passer til det, der er i local storage, så den finder current user
+deleteOrder() kører, når der klikkes på knappen "anuller bestilling", som er sat op i profile.html
+hvis der trykkes ja til sletning af ordren, vil metoden DELETE kører og fetche endpointet /delete/order/Id */
+/* async function deleteOrder() {
+    const orderArray = await (
+        await fetch("http://localhost:3000/order")
+    ).json();
+    orderArray.forEach((order) => {
+        if (order.phone == JSON.parse(localStorage.getItem("customer")).phone) {
+            orderId=order._id
+            console.log(orderId);
+        }
+    });
+    var choice = window.confirm(
+        "Er du sikker på, at du vil slette din ordre?");
+    if (choice == true) {
+        //Lavet med inspiration fra https://stackoverflow.com/questions/40284338/javascript-fetch-delete-and-put-requests
+        fetch("http://localhost:3000/order/delete/" + orderId, {
+            method: "DELETE",
+        })
+            .then(res => res.text()) // or res.json()
+            .then(res => console.log(res));
+
+        alert("Din ordre er blevet slettet");
+        window.location = "profile.html";
+    }
+} */

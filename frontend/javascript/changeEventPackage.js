@@ -1,13 +1,11 @@
-window.onload = changeEventPackage();
-
-let eventPackageArray = null
+let eventPackageArray = null;
 
 async function changeEventPackage() {
     eventPackageArray = await (
         await fetch("http://localhost:3000/eventpackage")
     ).json();
 
-
+    // se kommentarer i Users_customer_admin.js i funktion choosePhoneNumber()
     var select = document.getElementById("selectNumber");
     eventPackageArray.forEach((package) => {
         var option = package.name;
@@ -15,14 +13,10 @@ async function changeEventPackage() {
         el.textContent = option;
         el.value = option;
         select.appendChild(el);
-
     })
-
-
-
-
-
 }
+
+changeEventPackage();
 
 async function showEventPrice() {
     eventPackageArray = await (

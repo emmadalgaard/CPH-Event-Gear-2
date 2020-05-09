@@ -1,31 +1,33 @@
+// Her eksporteres alle de moduler vi skal bruge til systemet, både fra express og fra egne moduler
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors"); //Ikke tænkt på cors lige nu
+const bodyParser = require("body-parser"); // Gør at vi kan kommunikere med dataen i JSON format
+const cors = require("cors"); // Cross-Origin Resource Sharing, bruges til vores fetch-APIs
+/* CORS mekanismen supporterer sikre cross-origin requests og data overførsler mellem browsere og servere.
+Moderne browsere bruger CORS i API'er som fetch til at minimere risiciene af cross-origin HTTP requests
+https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS */
 const routes = require("./api");
 const db = require("./db");
 
 function startServer() {
-    // express ting
     const app = express();
-    //app.use(bodyParser.urlencoded({ extended: false })); // bruger body parser, så i kan trække body direkte ud af jeres api requests. Bruges fx i POST.
-    app.use(cors()); // Så i kan kommunikere med jeres frontend, når begge ting kører på samme maskine
-    app.use(bodyParser.json()); // Siger body'en kommer i json format.
-    // must return a Router
-    app.use("/", routes.addRoutes()); // Her tilføjes jeres routes. Når i skal tilføje nye, skal redigere i hhv api/index.js samt tilføje en ny fil i api/routes
+    app.use(cors()); // Så vi kan kommunikere med vores frontend, når begge ting kører på samme maskine
+    app.use(bodyParser.json());
+    app.use("/", routes.addRoutes()); // Her tilføjes vores routes.
+    // Ved at bruge "/", skal vi ikke skrive hele vejen til endpointet. Vi kan nøjes med at skrive endpointet.
 
-    //Establish database connection
+    // Her etableres connection til databasen
     db.getConnection();
 
-    //Listen to port
+    // Her lytter den til den givne port, 3000
     app.listen(3000, err => {
         if (err) {
             process.exit(1);
             return;
         }
         console.log(`
-        ################################################
-        🛡️  Server listening on port: 3000🛡️ 
-        ################################################
+        ########################################
+        🛡️  Server listening on port: 3000   🛡️ 
+        ########################################
     `);
     });
 }

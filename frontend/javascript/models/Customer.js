@@ -8,13 +8,5 @@ class Customer {
         this.password = password;
         this.userType = userType;
     }
-
-    /*changeName = (name) => {
-        this.name = name;
-    };
-
-    changeName(name) {
-
-    }*/
 }
 

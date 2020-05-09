@@ -1,3 +1,4 @@
+// order model definerer, hvilke felter af data vores ordrer består af
 const mongoose = require("mongoose");
 const OrderSchema = new mongoose.Schema({
     phone: {
@@ -32,6 +33,8 @@ const OrderSchema = new mongoose.Schema({
 });
 
 const model = mongoose.model("Order", OrderSchema);
+// "The first argument is the singular name of the collection your model is for. Mongoose automatically looks for the plural, lowercased version of your model name"
+// https://mongoosejs.com/docs/models.html
 
 module.exports = {
     model: model,

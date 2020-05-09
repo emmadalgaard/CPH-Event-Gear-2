@@ -5,13 +5,14 @@ Dette skal laves om til, at man som gæst godt kan se produkterne, man kan bare 
  */
 window.onload = populateCustomers();
 
-function checkLoginOrderPage() {
+/* function checkLoginOrderPage() {
     if (JSON.parse(localStorage.getItem("customer")).phone == null) {
         window.location = "Loginpage.html";
     } else {
         window.location = "orderPage.html";
     }
-}
+} */
+
 /* The following function has the same functionality as the function above, but with the "Profil" button instead.
  */
 function checkLoginProfilePage() {
@@ -141,7 +142,7 @@ async function deleteUser() {
 
         alert("Bruger er blevet slettet");
         window.location = "index.html";
-        await deleteOrder();
+        deleteOrder();
         logOut();
     }
 }

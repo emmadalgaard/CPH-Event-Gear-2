@@ -237,12 +237,12 @@ async function storeOrder() {
         var orderYear = document.getElementById('rentYear').value;
 
         let phone = JSON.parse(localStorage.getItem("customer")).phone;
-        let orderId = null;
+        // let orderId = null;
         // A variable is created to calculate the final price of the order.
         // Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
         var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
 
-        let o = new Order(orderId, phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);
+        let o = new Order(phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);
         console.log(o)
         await fetch("http://localhost:3000/order", {
             method: 'POST',

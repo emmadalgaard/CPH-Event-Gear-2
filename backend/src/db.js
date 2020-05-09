@@ -1,9 +1,9 @@
+// i denne fil connectes til databasen, og dette eksporteres så andre filer kan tilgå det
 const mongoose = require("mongoose");
 
 let connection;
 
 module.exports = {
-    //exporter, så andre filer kan tilgå den
     getConnection: async () => {
         if (!connection) {
             connection = await mongoose.connect("mongodb+srv://cpheventgear:cpheventgear123@cluster0-no0xc.mongodb.net/cpheventgear", {

@@ -1,17 +1,5 @@
-// Klasse for order
 class Order {
-    constructor(
-        orderId,
-        phone,
-        amount1,
-        amount2,
-        amount3,
-        orderDay,
-        orderMonth,
-        orderYear,
-        orderPrice
-    ) {
-        this.orderId = orderId;
+    constructor(phone, amount1, amount2, amount3, orderDay, orderMonth, orderYear, orderPrice) {
         this.phone = phone;
         this.amount1 = amount1;
         this.amount2 = amount2;
@@ -22,11 +10,8 @@ class Order {
         this.orderPrice = orderPrice;
     }
 
+    // metode til at påføre data i json-format til vores frontend, se profile.js, populateOrders()
     applyData(json) {
         Object.assign(this, json);
     }
-
-    changeAmount1 = (amount1) => {
-        this.amount1 = amount1;
-    };
 }

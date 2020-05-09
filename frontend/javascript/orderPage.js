@@ -1,25 +1,4 @@
-/*
-This function check if the user is logged in. localStorage.getItem takes the information from the chosen key saved
-in localStorage (here we use the 'phone' key), and checks if there are is any value saved to the key. If not, the user
-is redirected to the login page. In addition, the function also inserts the users phone number in the navibar as text.
- */
-window.onload = function checkLoginButton() {
-    //document.getElementById('loginPhone').innerHTML="Logget ind med ID: <br>" + JSON.parse(localStorage.getItem('customer')).phone;
-
-    //checks if the user is logged in and redirects to loginpage if not
-    // (this is used if the user is linked directly to this page and have not logged in or registered before.)
-    if (JSON.parse(localStorage.getItem('customer')).phone == null) {
-        window.location = "Loginpage.html"
-    }
-}
-//The purpose of this function is to make sure that the user of the website cannot enter the orderPage if the user is not logged in.
-//This function uses the same if statement as the function above but here it is an if else statement. The difference is mainly that this function is activated when a button is clicked.
-//This if statement locate the user to either the loginPage or the orderPage. If the key in local storage is null they direct to loginPage else the user goes to orderPage where the order can be made.
-
-
-//This function has the same purpose and uses the same if else statement as the one above.
-//But this is for the profilePage. This means that if the user of the programme is logged in it can now see information about the profile and orders.
-
+// tjekker om bruger er logget ind, når denne prøver at tilgå profil-siden
 function checkLoginProfilePage() {
     if (JSON.parse(localStorage.getItem('customer')).phone == null) {
         window.location = "Loginpage.html"
@@ -27,13 +6,14 @@ function checkLoginProfilePage() {
         window.location ="profile.html"
     }
 }
-/*The following function is activated by the confirm time button. It has the following purposes:
-1. It checks if the date/time values have been filled out, and displays an error if not.
-2. It checks if there already are reservations for the given time/date, and adjusts the amount of jetskis shown.
+
+/* Følgende funktion aktiveres ved vælg tidspunkt-knappen. Den har følgende formål:
+    1. Tjekker om dato er udfyldt, ellers viser den fejl
+    2. Tjekker om der er allerede er reservationer for den givne dag, og justerer mængden af festpakker der vises
+
  */
 
 async function confirmTime() {
-    //Creating variables that represent the user selection of date and time we assign the variable to the different elementID's from our HTML
     var rentDayID = document.getElementById("rentDay");
     var rentDayValue = rentDayID.options[rentDayID.selectedIndex].value;
     var rentMonthID = document.getElementById("rentMonth");
@@ -42,9 +22,8 @@ async function confirmTime() {
     var rentYearValue = rentYearID.options[rentYearID.selectedIndex].value;
 
 
-    //Tests if the variables set before are equal to 00 (haven't been set).
-    //If the variables have been set, it changes the display property from "none" to "", showing all the jetski models
-    //and all the jetski amounts.
+    // Tjekker om variabler er lig 0, altså ikke er blevet sat
+    // Hvis de er sat, ændrer den display property fra "none" til "", og viser event pakkerne og deres mængder
     if (rentDayValue != "00" && rentMonthValue != "00" && rentYearValue != "00") {
         document.getElementById("modelContainer1").style.display = '';
         document.getElementById("modelContainer2").style.display = '';
@@ -55,29 +34,27 @@ async function confirmTime() {
         document.getElementById('eventpackage2Amount2').style.display = '';
         document.getElementById('eventpackage3Amount3').style.display = '';
         document.getElementById('eventpackage3Amount2').style.display = '';
-    } else { //If the user has not filled out alle the date/time fields, an error is shown:
+    } else { // Hvis ikke udfyldt viser den en alert med følgende
         alert("Udfyld venligst alle felter.");
     }
-
-    //Two variables are created. The variable "orderAmount" is set equal to the length of the array "orderArray" that is saved in local storage.
 
     const orderArray = await (
         await fetch("http://localhost:3000/order")
     ).json();
 
+    // orderAmount sættes lig længden af arrayet orderArray
     var orderAmount = orderArray.length;
-    //Three new variables are created for occupiedAmount1/2/3 which refers to the jetskis. They are defined using number 0 because they as a standard are not rented.
+
+    // refererer til eventpakkerne, der som udgangspunkt er sat til 0 fordi de som standard ikke er booket.
     var occupiedAmount1 = 0;
     var occupiedAmount2 = 0;
     var occupiedAmount3 = 0;
 
-    /*A loop is created to cycle through all registered order and count the occupied jetskis for the selected period.
-    The purpose of this loop is that only available jetskis are shown, and that jetskis that are already reserved are hidden.
-    The loop uses the orderAmount and the orderArray variables.
-     */
+    /* et for-loop laves for at gennemgå alle registrerede ordre og tælle mængde af optagede eventpakker for den valgte dato
+    Formålet for loopet er kun at vise de ledige eventpakker. */
     for (var i = 0; i < orderAmount; i++) {
         if (rentDayValue == orderArray[i].orderDay && rentMonthValue == orderArray[i].orderMonth && rentYearValue == orderArray[i].orderYear) {
-            //Counts the amount of jetski1 reserved and adds to the var
+            // Tæller mængden af reserverede rund-fødselsdags pakker og tilføjer dem til variablen
             if (orderArray[i].amount1 == 1) {
                 occupiedAmount1++;
             } else if (orderArray[i].amount1 == 2) {
@@ -85,7 +62,7 @@ async function confirmTime() {
             } else if (orderArray[i].amount1 == 3) {
                 occupiedAmount1+=3;
             }
-            //Counts the amount of jetski2 reserved and adds to the var
+            // Tæller mængden af reserverede bryllups pakker og tilføjer dem til variablen
             if (orderArray[i].amount2 == 1) {
 
                 occupiedAmount2++;
@@ -94,7 +71,7 @@ async function confirmTime() {
             } else if (orderArray[i].amount2 == 3) {
                 occupiedAmount2+=3;
             }
-            //Counts the amount of jetski3 reserved and adds to the var
+            // Tæller mængden af reserverede studentergilde pakker og tilføjer dem til variablen
             if (orderArray[i].amount3 == 1) {
                 occupiedAmount3++;
             } else if (orderArray[i].amount3 == 2) {
@@ -105,43 +82,38 @@ async function confirmTime() {
         }
     }
 
-    //This if statement corrects the amount of jetski 1 if there are any reserved
+    // Nedenstående if-statements korrigerer mængden for de respektive eventpakker, hvis nogle er reserveret
     if (occupiedAmount1 == 1) {
         document.getElementById('eventpackage1Amount3').style.display = "none";
     } else if (occupiedAmount1 == 2) {
         document.getElementById('eventpackage1Amount3').style.display = "none";
         document.getElementById('eventpackage1Amount2').style.display = "none";
-        //The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
+        // Nedenstående condition er sat til >= hvis der kommer en bug og mængden af reserverede pakker overstiger 3
     } else if (occupiedAmount1 >= 3) {
         document.getElementById("modelContainer1").style.display = "none";
     }
-    //This if statement corrects the amount of jetski 2 if there are any reserved
+
     if (occupiedAmount2 == 1) {
         document.getElementById('eventpackage2Amount3').style.display = "none";
     } else if (occupiedAmount2== 2) {
         document.getElementById('eventpackage2Amount3').style.display = "none";
         document.getElementById('eventpackage2Amount2').style.display = "none";
-        //The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount2 >= 3) {
         document.getElementById("modelContainer2").style.display = "none";
     }
-    //This if statement corrects the amount of jetski 3 if there are any reserved
+
     if (occupiedAmount3 == 1) {
         document.getElementById('eventpackage3Amount3').style.display = "none";
     } else if (occupiedAmount3 == 2) {
         document.getElementById('eventpackage3Amount3').style.display = "none";
         document.getElementById('eventpackage3Amount2').style.display = "none";
-        //The following condition is set to >= in case a bug occurs and the amount of reserved jetskis exceeds 3.
     } else if (occupiedAmount3 >= 3) {
         document.getElementById("modelContainer3").style.display = "none";
     }
 }
 
-
-
 /* Laver en funktion, der viser eventpakkerne ved at gette fra endpointet /eventpackage.
-Bruger packageType til at skelne mellem de forskellige pakker og henter navn og pris fra databasen
- */
+Bruger packageType til at skelne mellem de forskellige pakker og henter navn og pris fra databasen */
 async function showEventpackages() {
     const eventpackageArray = await (
         await fetch("http://localhost:3000/eventpackage")
@@ -162,9 +134,7 @@ async function showEventpackages() {
     })
 }
 // Kalder funktionen for at få info frem
-window.onload = () => {
-    showEventpackages();
-}
+showEventpackages();
 
 // Definerer eventpakkerne 1, 2,3 globalt for at alle funktionerne kan tilgå dem - vi opretter dem som tomme variable, så vi kan lave instanser af klassen
 let eventpackage1 = null;
@@ -172,8 +142,7 @@ let eventpackage2 = null;
 let eventpackage3 = null;
 
 /* Denne funktion aktiveres, når der vælges amount af en pakke
-Laver en funktion, der først gør det samme som ovenfor ved showEventpackages for at hente dem fra databasen.
- */
+Laver en funktion, der først gør det samme som ovenfor ved showEventpackages for at hente dem fra databasen */
 async function calculatePrice() {
     const eventpackageArray = await (
         await fetch("http://localhost:3000/eventpackage")
@@ -189,7 +158,7 @@ async function calculatePrice() {
             }
         });
 
-    //Gemmer værdien af orderamounts i nogle variable
+    // Gemmer værdien af order amounts i nogle variable
     let orderAmount1JS = document.getElementById('orderAmount1').value;
     let orderAmount2JS = document.getElementById('orderAmount2').value;
     let orderAmount3JS = document.getElementById('orderAmount3').value;
@@ -221,27 +190,26 @@ async function calculatePrice() {
     }
 }
 
-//This function's purpose is to store the created order in the database.
+// Denne funktions formål er at gemme den oprettede order i databasen
 async function storeOrder() {
-    if (JSON.parse(localStorage.getItem('customer')) == null) {
+    if (JSON.parse(localStorage.getItem('customer')) == null) { // man kan ikke lave en ordre hvis man ikke er logget ind
         alert("Du er ikke logget ind");
         window.location = "Loginpage.html"
     } else {
-        // Variables are created for the amount picked of the three different types of Jetski.
         var orderAmount1JS = document.getElementById('orderAmount1').value;
         var orderAmount2JS = document.getElementById('orderAmount2').value;
         var orderAmount3JS = document.getElementById('orderAmount3').value;
-        // Variables are created for day, month and year.
+
         var orderDay = document.getElementById('rentDay').value;
         var orderMonth = document.getElementById('rentMonth').value;
         var orderYear = document.getElementById('rentYear').value;
 
         let phone = JSON.parse(localStorage.getItem("customer")).phone;
-        // let orderId = null;
-        // A variable is created to calculate the final price of the order.
-        // Totalprice = Amount picked of jetski1 * jetski1's price + Amount picked of jetski2 * jetski2's price and so on...
+
+        // lavet til at beregne prisen for den samlede ordre
         var finalPrice = orderAmount1JS * eventpackage1.price + orderAmount2JS * eventpackage2.price + orderAmount3JS * eventpackage3.price;
 
+        // se kommentarer i Users_customer_admin.js i funktionen register
         let o = new Order(phone, orderAmount1JS, orderAmount2JS, orderAmount3JS, orderDay, orderMonth, orderYear, finalPrice);
         console.log(o)
         await fetch("http://localhost:3000/order", {

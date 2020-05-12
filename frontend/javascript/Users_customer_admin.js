@@ -98,7 +98,7 @@ async function loginVal(phone, password) {
         }
     });
     if(successCustomer) { // Vil evaluere til true, fordi JS gør, så et objekt, der er sat til en værdi, evaluerer til true
-        console.log("You successfully logged in");
+
         localStorage.setItem("customer", JSON.stringify(successCustomer));
         // Vi sætter customer-objektet i local storage, så vi kan bruge dataene fra den givne customer til resten af programmets customer-funktioner
         // Dette anses for at være en sikkerhedsbrist - alternativt skulle der bruges cookies

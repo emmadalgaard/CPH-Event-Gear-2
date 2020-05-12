@@ -11,7 +11,7 @@ async function find( // find gør at vi kan hente data ned, når vi fetcher (GET
     options = { lean: true } // fortæller Mongoose at den ikke skal instansiere et fuldt Mongoose dokument, men kun give POJO (plain own JavaScript objects)
 
 ) {
-    return model // OBS find ud af, hvad denne return egentlig gør
+    return model // her returneres modellen med .find, .sort, .select og .exec metoderne
         .find(query, projection, options)
         .sort(sort)
         .select({ __v: 0 })

@@ -28,7 +28,7 @@ module.exports = {
         //GET - READ
         route.get("/", (req, res) => {
             getAllCustomers().then((result) => {
-                // getAllCustomers er en callback function, som kalder den relevante control-function, der gør brug af dbServices.find
+                //det andet argument i route.get er en callback funktion, som indeholder getAllcustomeres som kalder den relevante control-function, der gør brug af dbServices.find
                 // denne control-function kommunikerer med modellen, og henter de relevante data
                 // de relevante data kommer ind i response (res) og vises i json-format
                 res.status(200).json(result);

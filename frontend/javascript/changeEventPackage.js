@@ -2,7 +2,9 @@ let eventPackageArray = null;
 
 async function changeEventPackage() {
     eventPackageArray = await (
-        await fetch("http://localhost:3000/eventpackage")
+        await fetch("http://localhost:3000/eventpackage", {
+            method: "GET",
+        })
     ).json();
 
     // se kommentarer i Users_customer_admin.js i funktion choosePhoneNumber()

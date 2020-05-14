@@ -9,7 +9,6 @@ async function find( // find gør at vi kan hente data ned, når vi fetcher (GET
     projection = { __v: 0 }, // ekskluderer __v fra den query der hentes fra databasen
     sort = { _id: 1 }, // sorterer ved hjælp af _id
     options = { lean: true } // fortæller Mongoose at den ikke skal instansiere et fuldt Mongoose dokument, men kun give POJO (plain own JavaScript objects)
-
 ) {
     return model // her returneres modellen med .find, .sort, .select og .exec metoderne
         .find(query, projection, options)

@@ -9,7 +9,6 @@ async function editUser() {
     customerArray.forEach((customer) => {
         // Et if statement bruges til at tjekke, at det er en current user ved at sammenligne databasens phone med local storage, fordi phone er unikt for hver bruger
         if (customer.phone == JSON.parse(localStorage.getItem("customer")).phone) {
-
             document.getElementById("customerName").value = customer.customerName;
             document.getElementById("address").value = customer.address;
             document.getElementById("city").value = customer.city;
